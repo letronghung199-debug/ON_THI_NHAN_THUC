@@ -760,12 +760,22 @@ loadExamUnits(false);
             <button id="closeAdminSettings" type="button">✕ Đóng</button>
           </div>
       <div class="admin-config-grid">
+        <section class="admin-config-card central-sync-card">
+          <h3>0. ĐỒNG BỘ DỮ LIỆU TRUNG TÂM</h3>
+          <p>Toàn bộ cấu hình hệ thống và ngân hàng câu hỏi được lưu tập trung trên Google Sheets/Apps Script. Trình duyệt vẫn giữ một bản sao LocalStorage để tiếp tục sử dụng khi mất mạng.</p>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button id="syncAllCentralBtn" type="button">☁ Lưu toàn bộ lên máy chủ</button>
+            <button id="reloadCentralBtn" type="button" class="secondary">↻ Tải dữ liệu trung tâm</button>
+          </div>
+          <div class="config-status" id="centralSyncStatus">Đang sử dụng dữ liệu lưu trên thiết bị; hệ thống sẽ tự tải dữ liệu trung tâm khi có mạng.</div>
+          <div class="config-note">Mất mạng: tiếp tục dùng bản LocalStorage gần nhất. Có mạng trở lại: hệ thống tự thử đồng bộ các thay đổi đang chờ nếu thiết bị đã đăng nhập ADMIN.</div>
+        </section>
         <section class="admin-config-card question-manager-launch-card">
           <h3>1. QUẢN LÝ CÂU HỎI THI</h3>
           <p>Mở khu vực riêng để xem và sửa từng câu, thêm một câu mới hoặc nhập đồng thời nhiều file Word/TXT/JSON vào ngân hàng thi.</p>
           <button id="openQuestionManager" type="button">📝 Mở quản lý câu hỏi</button>
           <div class="config-status" id="questionConfigStatus">Đang dùng ngân hàng mặc định 284 câu.</div>
-          <div class="config-note">Các thay đổi được lưu trên trình duyệt hiện tại và dùng cho nội dung thi đang chọn.</div>
+          <div class="config-note">Các thay đổi được lưu trên thiết bị ngay lập tức và tự đồng bộ lên máy chủ; khi mất mạng vẫn dùng bản LocalStorage gần nhất.</div>
         </section>
         <section class="admin-config-card">
           <h3>2. THAY ĐỔI MẬT KHẨU</h3>
@@ -784,7 +794,7 @@ loadExamUnits(false);
           <input id="backgroundFile" type="file" accept="image/*">
           <button id="saveBranding" type="button">Lưu thay đổi</button><button id="resetBranding" type="button" class="secondary">Khôi phục mặc định</button>
           <div class="config-status" id="brandingStatus"></div>
-          <div class="config-note">Ảnh nền được tự nén trước khi lưu để file chạy nhẹ hơn.</div>
+          <div class="config-note">Ảnh nền được tự nén, lưu LocalStorage để dùng khi mất mạng và đồng bộ cùng cấu hình trung tâm.</div>
         </section>
         <section class="admin-config-card home-menu-config-card">
           <h3>4. TÊN & CHÚ THÍCH CÁC MỤC TRANG CHỦ</h3>
@@ -820,7 +830,7 @@ loadExamUnits(false);
           <div id="unitSettingsList" class="module-settings-list"></div>
           <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><button id="saveExamUnits" type="button">☁ Lưu & đồng bộ đơn vị</button><button id="reloadExamUnits" type="button" class="secondary">↻ Tải lại từ máy chủ</button></div>
           <div class="config-status" id="unitConfigStatus"></div>
-          <div class="config-note">Danh sách được lưu tập trung qua Google Apps Script để mọi điện thoại/máy tính dùng cùng một danh sách.</div>
+          <div class="config-note">Danh sách được lưu tập trung qua Google Apps Script và đồng thời giữ bản LocalStorage để sử dụng khi mất mạng.</div>
         </section>
         <section class="admin-config-card copyright-config-card">
           <h3>8. THÔNG TIN BẢN QUYỀN</h3>
@@ -1697,6 +1707,184 @@ document.getElementById('openAdminSettings')?.addEventListener('click',()=>{grad
   }
   window.addEventListener('resize',()=>{if(!isMobile())closeMobileExamNav();});
   window.addEventListener('orientationchange',()=>setTimeout(()=>window.scrollTo({top:window.scrollY,behavior:'auto'}),150));
+})();
+</script>
+
+
+<script>
+/* ===== V24: LƯU TẬP TRUNG + LOCALSTORAGE DỰ PHÒNG KHI MẤT MẠNG ===== */
+(function(){
+  const CENTRAL_SYNC_KEY='centralSyncPending';
+  let centralApplying=false;
+  let centralSyncTimer=null;
+
+  function setCentralStatus(msg,bad){
+    const el=document.getElementById('centralSyncStatus');
+    if(el){el.textContent=msg||'';el.style.color=bad?'#b91c1c':'';}
+  }
+  function getCentralPassword(){
+    return String(savedServerPassword||document.getElementById('adminPassword')?.value||'').trim();
+  }
+  function cloneJSON(v){try{return JSON.parse(JSON.stringify(v));}catch(e){return v;}}
+  function normalizedAllBanks(){
+    const out={};
+    (quizModules||[]).forEach(m=>{
+      const b=Array.isArray(moduleBanks[m.id])?moduleBanks[m.id]:moduleBaseBank(m.id);
+      out[m.id]=Array.isArray(b)?cloneJSON(b):[];
+    });
+    return out;
+  }
+  function collectCentralPayload(){
+    return {
+      action:'saveCentral',
+      password:getCentralPassword(),
+      config:{
+        version:24,
+        savedAt:new Date().toISOString(),
+        syncToken:'sync-'+Date.now()+'-'+Math.random().toString(36).slice(2),
+        quizModules:cloneJSON(quizModules||[]),
+        moduleGradeLevels:cloneJSON(moduleGradeLevels||{}),
+        homeMenuConfig:cloneJSON(homeMenuConfig||{}),
+        branding:{
+          systemTitle:storeGet('systemTitle')||defaultSystemTitle,
+          brand1:storeGet('brand1')||defaultBrand1,
+          brand2:storeGet('brand2')||defaultBrand2,
+          homeBg:storeGet('homeBg')||''
+        },
+        examUnits:cloneJSON(examUnits||[])
+      },
+      banks:normalizedAllBanks()
+    };
+  }
+  function saveCentralLocalSnapshot(payload){
+    try{
+      storeSet('centralConfigSnapshot',JSON.stringify(payload.config||{}));
+      storeSet('centralBanksSnapshot',JSON.stringify(payload.banks||{}));
+    }catch(e){}
+  }
+  async function postCentralPayload(payload){
+    if(!RESULT_ENDPOINT) throw new Error('Chưa cấu hình địa chỉ Apps Script.');
+    if(!payload.password) throw new Error('Chưa có mật khẩu máy chủ. Hãy đăng nhập ADMIN trước.');
+    const auth=await adminJsonp(RESULT_ENDPOINT+'?action=auth&password='+encodeURIComponent(payload.password)+'&_='+Date.now());
+    if(!auth?.ok)throw new Error(auth?.message||'Mật khẩu máy chủ không đúng.');
+    await fetch(RESULT_ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)});
+    const token=payload.config?.syncToken||'';
+    for(let i=0;i<6;i++){
+      await new Promise(r=>setTimeout(r,500));
+      try{const st=await adminJsonp(RESULT_ENDPOINT+'?action=centralStatus&_='+Date.now());if(st?.ok&&st.syncToken===token)return true;}catch(e){}
+    }
+    throw new Error('Máy chủ chưa xác nhận dữ liệu mới. Hãy bấm “Lưu toàn bộ lên máy chủ” lại.');
+  }
+  async function syncAllCentral(showMessage=true){
+    if(centralApplying)return false;
+    const payload=collectCentralPayload();
+    saveCentralLocalSnapshot(payload);
+    storeSet(CENTRAL_SYNC_KEY,'1');
+    if(!navigator.onLine){if(showMessage)setCentralStatus('Đang mất mạng: đã lưu an toàn trên thiết bị. Hệ thống sẽ đồng bộ khi có mạng trở lại.',false);return false;}
+    try{
+      await postCentralPayload(payload);
+      storeRemove(CENTRAL_SYNC_KEY);
+      storeSet('centralLastSync',new Date().toISOString());
+      if(showMessage)setCentralStatus('Đã gửi toàn bộ cấu hình và ngân hàng câu hỏi lên máy chủ. LocalStorage vẫn được giữ làm bản dự phòng.',false);
+      return true;
+    }catch(e){
+      if(showMessage)setCentralStatus('Đã lưu trên thiết bị nhưng chưa đồng bộ máy chủ: '+e.message,true);
+      return false;
+    }
+  }
+  function scheduleCentralSync(delay=900){
+    if(centralApplying)return;
+    storeSet(CENTRAL_SYNC_KEY,'1');
+    clearTimeout(centralSyncTimer);
+    centralSyncTimer=setTimeout(()=>syncAllCentral(false),delay);
+  }
+  function persistCentralToLocal(){
+    storeSet('quizModules',JSON.stringify(quizModules||[]));
+    storeSet('moduleQuestionBanks',JSON.stringify(moduleBanks||{}));
+    storeSet('moduleGradeLevels',JSON.stringify(moduleGradeLevels||{}));
+    storeSet('homeMenuConfig',JSON.stringify(homeMenuConfig||{}));
+    storeSet('examUnits',JSON.stringify(examUnits||[]));
+  }
+  function applyCentralBundle(data,showMessage=true){
+    if(!data||!data.ok||!data.config)return false;
+    centralApplying=true;
+    try{
+      const cfg=data.config||{};
+      if(Array.isArray(cfg.quizModules)&&cfg.quizModules.length){
+        quizModules=cfg.quizModules.map(m=>({...m,examSize:Math.max(1,Number(m.examSize)||100),examMinutes:Math.max(1,Number(m.examMinutes)||90)}));
+      }
+      if(data.banks&&typeof data.banks==='object') moduleBanks=cloneJSON(data.banks);
+      if(cfg.moduleGradeLevels&&typeof cfg.moduleGradeLevels==='object') moduleGradeLevels=cloneJSON(cfg.moduleGradeLevels);
+      if(cfg.homeMenuConfig&&typeof cfg.homeMenuConfig==='object') homeMenuConfig={...DEFAULT_HOME_MENU_CONFIG,...cfg.homeMenuConfig};
+      if(Array.isArray(cfg.examUnits)) examUnits=normalizeExamUnits(cfg.examUnits);
+      const br=cfg.branding||{};
+      if(br.systemTitle)storeSet('systemTitle',br.systemTitle);
+      if(br.brand1)storeSet('brand1',br.brand1);
+      if(br.brand2)storeSet('brand2',br.brand2);
+      if(Object.prototype.hasOwnProperty.call(br,'homeBg')){if(br.homeBg)storeSet('homeBg',br.homeBg);else storeRemove('homeBg');}
+      if(!quizModules.some(m=>m.id===currentModuleId))currentModuleId=quizModules[0]?.id||'chinh-tri';
+      storeSet('currentQuizModule',currentModuleId);
+      syncCurrentBank();
+      persistCentralToLocal();
+      saveCentralLocalSnapshot({config:cfg,banks:moduleBanks});
+      try{applyBranding();}catch(e){}
+      try{applyHomeMenuConfig();}catch(e){}
+      try{fillCandidateUnits();renderUnitSettings();}catch(e){}
+      try{renderModuleSettings();refreshQuestionModuleSelect();refreshGradeModuleSelect();renderGradeSettings();refreshActionModuleLists();renderStudyModuleList();buildAdminModuleFilter();}catch(e){console.warn('central render',e);}
+      try{updateQuestionStatus();}catch(e){}
+      storeRemove(CENTRAL_SYNC_KEY);
+      storeSet('centralLastLoad',new Date().toISOString());
+      if(showMessage)setCentralStatus('Đã tải dữ liệu trung tâm. Thiết bị đã lưu thêm một bản LocalStorage để dùng khi mất mạng.',false);
+      return true;
+    }finally{centralApplying=false;}
+  }
+  async function loadCentralData(showMessage=true){
+    if(!RESULT_ENDPOINT)return false;
+    if(!navigator.onLine){if(showMessage)setCentralStatus('Đang mất mạng: hệ thống đang dùng dữ liệu LocalStorage gần nhất trên thiết bị.',false);return false;}
+    try{
+      if(showMessage)setCentralStatus('Đang tải cấu hình và ngân hàng câu hỏi từ máy chủ…',false);
+      const data=await adminJsonp(RESULT_ENDPOINT+'?action=bootstrap&_='+Date.now());
+      if(!data?.ok)throw new Error(data?.message||data?.error||'Máy chủ chưa hỗ trợ V5');
+      if(!data.config){if(showMessage)setCentralStatus('Máy chủ chưa có dữ liệu trung tâm. Đăng nhập ADMIN rồi bấm “Lưu toàn bộ lên máy chủ” lần đầu.',false);return false;}
+      return applyCentralBundle(data,showMessage);
+    }catch(e){
+      if(showMessage)setCentralStatus('Không tải được máy chủ; đang tiếp tục bằng LocalStorage trên thiết bị. '+e.message,true);
+      return false;
+    }
+  }
+
+  // Ghi đè các hàm lưu cục bộ: vẫn lưu LocalStorage trước, sau đó đồng bộ nền.
+  const originalSaveModules=saveModules;
+  saveModules=function(){originalSaveModules();scheduleCentralSync();};
+  const originalSaveModuleGradeLevels=saveModuleGradeLevels;
+  saveModuleGradeLevels=function(){originalSaveModuleGradeLevels();scheduleCentralSync();};
+
+  // Các nút lưu trực tiếp không đi qua hai hàm trên.
+  document.getElementById('saveHomeMenuConfig')?.addEventListener('click',()=>scheduleCentralSync(400));
+  document.getElementById('saveGradeSettings')?.addEventListener('click',()=>scheduleCentralSync(400));
+  document.getElementById('saveExamUnits')?.addEventListener('click',()=>scheduleCentralSync(700));
+  document.getElementById('saveBranding')?.addEventListener('click',()=>setTimeout(()=>scheduleCentralSync(100),1200));
+  document.getElementById('resetBranding')?.addEventListener('click',()=>scheduleCentralSync(500));
+  document.getElementById('syncAllCentralBtn')?.addEventListener('click',()=>syncAllCentral(true));
+  document.getElementById('reloadCentralBtn')?.addEventListener('click',()=>loadCentralData(true));
+
+  // Sau khi đăng nhập ADMIN thành công, nếu có thay đổi chờ thì đẩy lên máy chủ.
+  const originalLoadAdminData=loadAdminData;
+  loadAdminData=async function(password){
+    const r=await originalLoadAdminData(password);
+    if(storeGet(CENTRAL_SYNC_KEY)==='1')setTimeout(()=>syncAllCentral(false),500);
+    return r;
+  };
+
+  window.addEventListener('online',()=>{
+    setCentralStatus('Đã có mạng trở lại. Đang kiểm tra dữ liệu cần đồng bộ…',false);
+    if(storeGet(CENTRAL_SYNC_KEY)==='1'&&getCentralPassword()) syncAllCentral(true);
+    else loadCentralData(false);
+  });
+  window.addEventListener('offline',()=>setCentralStatus('Đang mất mạng: vẫn sử dụng LocalStorage trên thiết bị. Các thay đổi sẽ chờ đồng bộ.',false));
+
+  // Tải dữ liệu trung tâm khi mở trang; trước đó giao diện đã dùng LocalStorage nên không bị treo khi mất mạng.
+  setTimeout(()=>loadCentralData(false),250);
 })();
 </script>
 
