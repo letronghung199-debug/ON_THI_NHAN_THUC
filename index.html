@@ -372,6 +372,109 @@ body.exam-mode>.home-screen,body.exam-mode>header{display:none!important}
   .module-config-card .module-setting-advanced button,
   .grade-config-card button{width:100%;margin-right:0;}
 }
+
+
+/* ===== V20: TỐI ƯU GIAO DIỆN ĐIỆN THOẠI ===== */
+.mobile-nav-toggle,.exam-nav-close{display:none}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{max-width:100%;overflow-x:hidden}
+button,input,select,textarea{font-family:"Times New Roman",Times,serif}
+
+@media(max-width:768px){
+  body.exam-mode{padding:0!important;background:#eef3f8!important;overscroll-behavior-y:contain}
+  body.exam-mode .exam-screen{width:100%;max-width:none;margin:0!important;padding:0 8px 26px!important;box-sizing:border-box}
+  .exam-head{top:0!important;margin:0 -8px 10px!important;padding:8px 10px!important;border-radius:0!important;border-left:0!important;border-right:0!important;display:grid!important;grid-template-columns:1fr auto;gap:7px 9px;align-items:center;box-shadow:0 3px 12px #0f172a24}
+  .exam-head-top{display:flex!important;align-items:center!important;gap:6px;min-width:0}
+  .exam-head-top b{font-size:13px;white-space:nowrap}
+  .timer{font-size:19px!important;line-height:1;font-weight:900;white-space:nowrap}
+  .exam-candidate{grid-column:1/-1;font-size:13px!important;line-height:1.25;overflow-wrap:anywhere;padding:0!important}
+  .exam-head>.progress{grid-column:1/2;font-size:13px!important;font-weight:800;white-space:nowrap}
+  .exam-actions{grid-column:1/-1!important;display:grid!important;grid-template-columns:1.4fr .8fr .8fr!important;gap:7px!important}
+  .exam-actions .actionbtn{min-height:42px!important;padding:8px 6px!important;font-size:13px!important;border-radius:9px!important;margin:0!important;white-space:normal!important;line-height:1.1}
+  .mobile-nav-toggle{display:block!important;background:#0b5ea9!important;color:#fff!important}
+
+  .exam-layout{display:block!important}
+  .exam-main-column{width:100%;min-width:0}
+  .exam-card{margin:9px 0!important;padding:13px 11px!important;border-radius:11px!important;scroll-margin-top:150px!important;box-shadow:0 2px 8px #0f172a0d}
+  .exam-card .q-title{font-size:16px!important;line-height:1.42!important;overflow-wrap:anywhere}
+  .exam-card .q-no{display:inline;font-size:16px!important}
+  .exam-option{display:grid!important;grid-template-columns:22px 1fr;column-gap:4px;align-items:start;min-height:48px;padding:11px 10px!important;margin:7px 0!important;border-radius:10px!important;font-size:15px!important;line-height:1.38!important;overflow-wrap:anywhere;touch-action:manipulation}
+  .exam-option input{width:18px;height:18px;margin:1px 4px 0 0!important;transform:none!important;accent-color:#0b5ea9}
+  .exam-option b{display:inline}
+
+  /* Danh sách câu hỏi dạng bottom-sheet, không che bài khi chưa mở */
+  .exam-nav{display:block!important;position:fixed!important;left:0!important;right:0!important;bottom:0!important;top:auto!important;z-index:250000!important;width:100%!important;max-height:min(78dvh,650px)!important;border-radius:18px 18px 0 0!important;border:1px solid #cbd5e1!important;border-bottom:0!important;box-shadow:0 -14px 40px #0f172a42!important;transform:translateY(105%);transition:transform .22s ease;overflow:hidden!important;background:#fff}
+  body.mobile-exam-nav-open .exam-nav{transform:translateY(0)}
+  body.mobile-exam-nav-open::after{content:"";position:fixed;inset:0;z-index:249999;background:#0f172a66;backdrop-filter:blur(1px)}
+  .exam-nav-head{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:10px;padding:12px 14px!important}
+  .exam-nav-head>div{min-width:0}
+  .exam-nav-head b{font-size:16px!important}
+  .exam-nav-head small{font-size:12px!important}
+  .exam-nav-close{display:flex!important;align-items:center;justify-content:center;flex:0 0 38px;width:38px;height:38px;border:0;border-radius:10px;background:#e2e8f0;color:#334155;font-size:18px;font-weight:900;cursor:pointer}
+  .exam-nav-summary{padding:8px 12px!important;gap:8px!important}
+  .exam-nav-stat{padding:7px 6px!important;font-size:12px!important}
+  .exam-nav-grid{grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:7px!important;max-height:38dvh!important;padding:5px 12px 10px!important;overflow:auto!important;-webkit-overflow-scrolling:touch}
+  .exam-nav-btn{height:42px!important;min-width:0!important;font-size:14px!important;border-radius:9px!important;touch-action:manipulation}
+  .exam-nav-tools{display:grid!important;grid-template-columns:1.4fr 1fr;gap:7px!important;padding:8px 12px calc(10px + env(safe-area-inset-bottom))!important;background:#fff;border-top:1px solid #e2e8f0}
+  .exam-nav-tools button{min-height:42px!important;font-size:12px!important}
+
+  /* Modal thông tin thí sinh phù hợp màn hình nhỏ */
+  .exam-login{padding:10px!important;align-items:flex-end!important}
+  .exam-login-box{width:100%!important;max-width:none!important;max-height:92dvh;overflow:auto;border-radius:18px 18px 0 0!important;padding:18px 14px calc(18px + env(safe-area-inset-bottom))!important}
+  .exam-login-box h2{font-size:22px!important}
+  .exam-login-box input[type="text"]{min-height:46px!important;font-size:16px!important;width:100%!important;box-sizing:border-box}
+  .anonymous-box{padding:11px!important;align-items:flex-start!important}
+  .anonymous-box input{width:20px!important;height:20px!important;flex:0 0 20px}
+  .form-actions{display:grid!important;grid-template-columns:1fr 1.4fr!important;gap:8px!important}
+  .form-actions .actionbtn{min-height:44px!important}
+
+  /* Popup kết quả vừa màn hình */
+  .exam-result.result-popup{width:calc(100vw - 20px)!important;max-height:86dvh!important;padding:16px 13px!important;border-radius:14px!important}
+
+  /* Trang chủ và hộp chọn nội dung */
+  .home-screen{min-height:100dvh!important;height:auto!important;overflow:auto!important;padding:14px 10px calc(20px + env(safe-area-inset-bottom))!important}
+  .home-menu{grid-template-columns:1fr!important;gap:10px!important}
+  .home-card{min-height:88px!important;padding:12px!important;grid-template-columns:50px 1fr 22px!important}
+  .home-card .home-icon{width:48px!important;height:48px!important;font-size:23px!important}
+  .home-card b{font-size:19px!important}
+  .home-card small{font-size:12px!important}
+  .study-select-overlay{padding:9px!important;align-items:flex-end!important}
+  .study-select-dialog{width:100%!important;max-height:91dvh!important;border-radius:18px 18px 0 0!important}
+  .study-select-head{position:sticky;top:0;z-index:2;padding:13px 12px!important;border-radius:18px 18px 0 0!important}
+  .study-select-head b{font-size:19px!important}
+  .study-module-list{grid-template-columns:1fr!important;padding:10px!important;gap:8px!important}
+  .study-module-btn{padding:13px 12px!important}
+
+  /* ADMIN/Kết quả: không tràn ngang ở các vùng điều khiển */
+  .admin-top,.ranking-top{flex-wrap:wrap!important}
+  .admin-toolbar-actions,.admin-tools,.ranking-tools{width:100%!important;grid-template-columns:1fr!important}
+  .admin-toolbar-actions button,.admin-tools input,.admin-tools select,.admin-tools button,.ranking-tools input,.ranking-tools select,.ranking-tools button{width:100%!important;min-height:44px!important;box-sizing:border-box}
+  .admin-title-module-select{width:100%!important;max-width:none!important;margin-top:6px!important}
+  .admin-summary-6,.ranking-summary{grid-template-columns:1fr 1fr!important}
+  .admin-table-wrap,.ranking-table-wrap{-webkit-overflow-scrolling:touch}
+
+  /* Cài đặt: một cột thật sự, không chồng lấn */
+  .admin-settings-layer{padding:0!important;overflow:hidden!important}
+  .admin-settings-dialog{width:100%!important;height:100dvh!important;max-height:100dvh!important;border-radius:0!important;display:flex!important;flex-direction:column!important}
+  .admin-settings-head{flex:0 0 auto!important;position:relative!important;top:auto!important}
+  .admin-settings-dialog>.admin-config-grid{flex:1 1 auto!important;min-height:0!important;overflow-y:auto!important;overflow-x:hidden!important;display:grid!important;grid-template-columns:1fr!important;padding:10px 9px calc(25px + env(safe-area-inset-bottom))!important}
+  .admin-config-card,.module-config-card,.grade-config-card{grid-column:1/-1!important;width:100%!important;min-width:0!important;overflow:hidden!important}
+  .module-setting-advanced,.grade-setting-row,.grade-module-select-wrap,.home-config-row,.module-add-row{grid-template-columns:1fr!important}
+  .module-setting-advanced button,.grade-setting-row button,.module-add-row button{width:100%!important}
+  .question-manager-dialog{width:100%!important;height:100dvh!important;max-height:100dvh!important;border-radius:0!important}
+  .question-manager-body{overflow:auto!important}
+}
+
+@media(max-width:390px){
+  .exam-head{grid-template-columns:1fr!important}
+  .exam-head-top,.exam-head>.progress,.exam-candidate,.exam-actions{grid-column:1!important}
+  .exam-actions{grid-template-columns:1fr 1fr!important}
+  .mobile-nav-toggle{grid-column:1/-1!important}
+  .exam-card .q-title{font-size:15px!important}
+  .exam-option{font-size:14px!important;padding:10px 8px!important}
+  .exam-nav-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+  .admin-summary-6,.ranking-summary{grid-template-columns:1fr!important}
+}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/mammoth@1.8.0/mammoth.browser.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
@@ -434,13 +537,13 @@ body.exam-mode>.home-screen,body.exam-mode>header{display:none!important}
   <div class="exam-head">
     <div class="exam-head-top"><b>THỜI GIAN:</b><span class="timer" id="timer">90:00</span></div>
     <div class="exam-candidate" id="examCandidate"></div><span class="progress">Đã chọn: <span id="answeredCount">0</span>/100</span>
-    <div class="exam-actions"><button class="actionbtn secondary" id="exitExam" type="button">Thoát</button><button class="actionbtn exam" id="submitExam" type="button">Nộp bài</button></div>
+    <div class="exam-actions"><button class="actionbtn mobile-nav-toggle" id="mobileExamNavToggle" type="button">☰ Danh sách câu</button><button class="actionbtn secondary" id="exitExam" type="button">Thoát</button><button class="actionbtn exam" id="submitExam" type="button">Nộp bài</button></div>
   </div>
   <div class="exam-result" id="examResult"></div>
   <div class="exam-layout">
     <div class="exam-main-column"><div id="examQuestions"></div></div>
     <aside class="exam-nav" id="examNavigator" aria-label="Điều hướng câu hỏi">
-      <div class="exam-nav-head"><b>📋 DANH SÁCH CÂU HỎI</b><small>Bấm số câu để chuyển nhanh đến câu đó</small></div>
+      <div class="exam-nav-head"><div><b>📋 DANH SÁCH CÂU HỎI</b><small>Bấm số câu để chuyển nhanh đến câu đó</small></div><button class="exam-nav-close" id="mobileExamNavClose" type="button" aria-label="Đóng danh sách câu hỏi">✕</button></div>
       <div class="exam-nav-summary"><div class="exam-nav-stat answered">Đã trả lời<br><span id="navAnsweredCount">0</span></div><div class="exam-nav-stat unanswered">Chưa trả lời<br><span id="navUnansweredCount">0</span></div></div>
       <div class="exam-nav-grid" id="examNavGrid"></div>
       <div class="exam-nav-tools"><button class="exam-next-unanswered" id="nextUnanswered" type="button">Câu chưa làm tiếp theo</button><button class="exam-top-button" id="examGoTop" type="button">Lên đầu bài</button></div>
@@ -1422,6 +1525,35 @@ document.getElementById('openAdminSettings')?.addEventListener('click',()=>{grad
   const moduleList=document.getElementById('moduleSettingsList');
   if(moduleList) moduleList.addEventListener('click',()=>setTimeout(refreshAllModuleSelectors,0));
   refreshAllModuleSelectors();
+})();
+
+
+// ===== V20: điều hướng Thi thử trên điện thoại =====
+(function(){
+  const toggle=document.getElementById('mobileExamNavToggle');
+  const closeBtn=document.getElementById('mobileExamNavClose');
+  const nav=document.getElementById('examNavigator');
+  function isMobile(){return window.matchMedia('(max-width:768px)').matches;}
+  function openMobileExamNav(){if(isMobile())document.body.classList.add('mobile-exam-nav-open');}
+  function closeMobileExamNav(){document.body.classList.remove('mobile-exam-nav-open');}
+  toggle?.addEventListener('click',openMobileExamNav);
+  closeBtn?.addEventListener('click',closeMobileExamNav);
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMobileExamNav();});
+  document.addEventListener('click',e=>{
+    if(!document.body.classList.contains('mobile-exam-nav-open'))return;
+    if(nav?.contains(e.target)||toggle?.contains(e.target))return;
+    closeMobileExamNav();
+  });
+  examNavGrid?.addEventListener('click',()=>{if(isMobile())setTimeout(closeMobileExamNav,100);});
+  const oldGoToExamQuestion=window.goToExamQuestion;
+  if(typeof oldGoToExamQuestion==='function'){
+    window.goToExamQuestion=function(index){
+      oldGoToExamQuestion(index);
+      if(isMobile())setTimeout(closeMobileExamNav,120);
+    };
+  }
+  window.addEventListener('resize',()=>{if(!isMobile())closeMobileExamNav();});
+  window.addEventListener('orientationchange',()=>setTimeout(()=>window.scrollTo({top:window.scrollY,behavior:'auto'}),150));
 })();
 </script>
 
