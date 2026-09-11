@@ -516,8 +516,86 @@ button,input,select,textarea{font-family:"Times New Roman",Times,serif}
   .exam-option-content{font-size:14px!important}
 }
 
+
+
+/* ===== V22: NỀN TRANG CHỦ RÕ HƠN + CỐ ĐỊNH THANH CHỨC NĂNG MOBILE ===== */
+/* Giảm lớp phủ tối để ảnh nền nhìn rõ hơn nhưng vẫn giữ độ tương phản chữ */
+.home-shade{background:linear-gradient(180deg,#06264c70 0%,#071a337c 46%,#031426ad 100%)!important}
+
+@media(max-width:768px){
+  /* Ảnh nền mobile bớt mờ thêm một mức */
+  .home-bg{filter:blur(1.2px)!important}
+
+  /* ÔN THI: cố định 3 tác vụ chính ở đáy màn hình */
+  body:not(.home-mode):not(.exam-mode) .modebar .actions-row{
+    position:fixed!important;
+    left:0!important;
+    right:0!important;
+    bottom:0!important;
+    z-index:240000!important;
+    display:grid!important;
+    grid-template-columns:1fr 1fr 1fr!important;
+    gap:7px!important;
+    padding:8px 9px calc(8px + env(safe-area-inset-bottom))!important;
+    margin:0!important;
+    background:rgba(255,255,255,.97)!important;
+    border-top:1px solid #cbd5e1!important;
+    box-shadow:0 -4px 18px #0f172a24!important;
+    backdrop-filter:blur(8px)!important;
+    -webkit-backdrop-filter:blur(8px)!important;
+  }
+  body:not(.home-mode):not(.exam-mode) .modebar .mode-toggle{display:contents!important}
+  body:not(.home-mode):not(.exam-mode) .modebar .actions-row .actionbtn{
+    width:100%!important;
+    min-width:0!important;
+    min-height:45px!important;
+    margin:0!important;
+    padding:8px 5px!important;
+    border-radius:9px!important;
+    font-size:12px!important;
+    line-height:1.12!important;
+    white-space:normal!important;
+    overflow:visible!important;
+    text-overflow:clip!important;
+  }
+  body:not(.home-mode):not(.exam-mode) .study-main{
+    padding-bottom:calc(82px + env(safe-area-inset-bottom))!important;
+  }
+  /* Thanh tìm kiếm/trang chủ vẫn ở vị trí bình thường, không chiếm màn hình khi cuộn */
+  body:not(.home-mode):not(.exam-mode) .modebar{position:relative!important;z-index:100!important}
+
+  /* THI: giữ thời gian + Danh sách câu + Thoát + Nộp bài luôn ở đầu màn hình */
+  body.exam-mode .exam-head{
+    position:sticky!important;
+    top:0!important;
+    z-index:245000!important;
+    background:rgba(255,255,255,.985)!important;
+    box-shadow:0 4px 16px #0f172a2b!important;
+    backdrop-filter:blur(8px)!important;
+    -webkit-backdrop-filter:blur(8px)!important;
+  }
+  body.exam-mode .exam-head-top,
+  body.exam-mode .exam-actions{position:relative!important;z-index:1!important}
+  body.exam-mode .exam-actions .actionbtn{font-weight:800!important}
+  body.exam-mode .exam-card{scroll-margin-top:165px!important}
+}
+
+@media(max-width:390px){
+  body:not(.home-mode):not(.exam-mode) .modebar .actions-row{gap:5px!important;padding-left:6px!important;padding-right:6px!important}
+  body:not(.home-mode):not(.exam-mode) .modebar .actions-row .actionbtn{font-size:11px!important;padding:7px 3px!important}
+  body.exam-mode .exam-card{scroll-margin-top:205px!important}
+}
+
+/* ===== V23: danh sách đơn vị tập trung ===== */
+#candidateUnit{width:100%;min-height:44px;padding:10px 12px;border:1px solid #cbd5e1;border-radius:9px;background:#fff;font:inherit}
+.unit-setting-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center;margin:7px 0}
+.unit-setting-row input{min-width:0;width:100%}
+.unit-setting-row button{white-space:nowrap}
+@media(max-width:600px){.unit-setting-row{grid-template-columns:minmax(0,1fr) auto}.unit-config-card{grid-column:1/-1}}
 </style>
-<script src="https://cdn.jsdelivr.net/npm/mammoth@1.8.0/mammoth.browser.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mammoth@1.8.0/mammoth.browser.min.js">
+loadExamUnits(false);
+</script>
 <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
 </head>
 <body id="dau-trang" class="home-mode">
@@ -597,7 +675,7 @@ button,input,select,textarea{font-family:"Times New Roman",Times,serif}
     <h2 id="examLoginTitle">Thông tin người dự thi</h2>
     <p id="examLoginInfo">Nhập đầy đủ thông tin trước khi bắt đầu bài thi.</p>
     <div class="form-row"><label for="candidateName">Họ và tên</label><input id="candidateName" type="text" autocomplete="name" placeholder="Ví dụ: Nguyễn Văn A"></div>
-    <div class="form-row"><label for="candidateUnit">Đơn vị</label><input id="candidateUnit" type="text" placeholder="Ví dụ: PHÒNG HC-KT/TRƯỜNG CĐHC 1"></div>
+    <div class="form-row"><label for="candidateUnit">Đơn vị</label><select id="candidateUnit"><option value="">-- Chọn đơn vị --</option></select><small id="candidateUnitStatus" style="display:block;margin-top:5px;color:#64748b">Danh sách đơn vị được đồng bộ từ hệ thống.</small></div>
     <div class="anonymous-box"><input id="anonymousExam" type="checkbox"><label for="anonymousExam">Thi ẩn danh<small>Không yêu cầu họ tên, đơn vị và không lưu kết quả</small></label></div>
     <div class="form-actions"><button class="actionbtn secondary" id="cancelExamStart" type="button">Hủy</button><button class="actionbtn exam" id="confirmExamStart" type="button">Vào thi</button></div>
   </div>
@@ -735,8 +813,17 @@ button,input,select,textarea{font-family:"Times New Roman",Times,serif}
           <button id="saveGradeSettings" type="button">💾 Lưu tiêu chí</button><button id="resetGradeSettings" type="button" class="secondary">Khôi phục mặc định</button>
           <div class="config-status" id="gradeConfigStatus"></div>
         </section>
+        <section class="admin-config-card unit-config-card">
+          <h3>7. ĐƠN VỊ DỰ THI</h3>
+          <p>Quản lý danh sách đơn vị dùng chung. Người dự thi chỉ chọn trong danh sách này để tránh ghi tên đơn vị không thống nhất.</p>
+          <div class="module-add-row"><input id="newUnitName" type="text" placeholder="Ví dụ: PHÒNG HC-KT"><button id="addExamUnit" type="button">＋ Thêm đơn vị</button></div>
+          <div id="unitSettingsList" class="module-settings-list"></div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><button id="saveExamUnits" type="button">☁ Lưu & đồng bộ đơn vị</button><button id="reloadExamUnits" type="button" class="secondary">↻ Tải lại từ máy chủ</button></div>
+          <div class="config-status" id="unitConfigStatus"></div>
+          <div class="config-note">Danh sách được lưu tập trung qua Google Apps Script để mọi điện thoại/máy tính dùng cùng một danh sách.</div>
+        </section>
         <section class="admin-config-card copyright-config-card">
-          <h3>7. THÔNG TIN BẢN QUYỀN</h3>
+          <h3>8. THÔNG TIN BẢN QUYỀN</h3>
           <p>Thông tin tác giả và liên hệ hiển thị cố định trong hệ thống.</p>
           <div class="copyright-settings-box"><b>LÊ TRỌNG HÙNG</b><span>0332.570.415</span></div>
           <div class="config-note">Bản quyền: LÊ TRỌNG HÙNG • 0332.570.415</div>
@@ -927,6 +1014,16 @@ const examCandidate=document.getElementById('examCandidate');
 const examLogin=document.getElementById('examLogin');
 const candidateName=document.getElementById('candidateName');
 const candidateUnit=document.getElementById('candidateUnit');
+const candidateUnitStatus=document.getElementById('candidateUnitStatus');
+const DEFAULT_EXAM_UNITS=['PHÒNG HC-KT','PHÒNG ĐÀO TẠO','PHÒNG CHÍNH TRỊ','BAN TÀI CHÍNH','TIỂU ĐOÀN 1','TIỂU ĐOÀN 2'];
+let examUnits=[];try{examUnits=JSON.parse(storeGet('examUnits')||'[]')||[];}catch(e){examUnits=[];}
+function normalizeUnitName(v){return String(v||'').trim().replace(/\s+/g,' ').toLocaleUpperCase('vi-VN');}
+function normalizePersonName(v){return String(v||'').trim().replace(/\s+/g,' ').toLocaleUpperCase('vi-VN');}
+function normalizeExamUnits(arr){return [...new Set((Array.isArray(arr)?arr:[]).map(normalizeUnitName).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'vi'));}
+function fillCandidateUnits(){if(!candidateUnit)return;const old=candidateUnit.value;candidateUnit.innerHTML='<option value="">-- Chọn đơn vị --</option>'+examUnits.map(u=>`<option value="${escapeHtml(u)}">${escapeHtml(u)}</option>`).join('');if(examUnits.includes(old))candidateUnit.value=old;if(candidateUnitStatus)candidateUnitStatus.textContent=examUnits.length?`Có ${examUnits.length} đơn vị trong danh sách.`:'Chưa có danh sách đơn vị. Liên hệ quản trị viên.';}
+function renderUnitSettings(){const box=document.getElementById('unitSettingsList');if(!box)return;box.innerHTML=examUnits.length?examUnits.map((u,i)=>`<div class="unit-setting-row" data-index="${i}"><input class="unit-name-input" value="${escapeHtml(u)}"><button class="delete-unit" type="button">Xóa</button></div>`).join(''):'<div class="config-note">Chưa có đơn vị.</div>';box.querySelectorAll('.delete-unit').forEach(b=>b.addEventListener('click',()=>{examUnits.splice(Number(b.closest('.unit-setting-row').dataset.index),1);renderUnitSettings();fillCandidateUnits();}));}
+async function loadExamUnits(showStatus=false){try{const data=await adminJsonp(RESULT_ENDPOINT+'?action=units&_='+Date.now());if(data&&data.ok&&Array.isArray(data.units)){examUnits=normalizeExamUnits(data.units);storeSet('examUnits',JSON.stringify(examUnits));fillCandidateUnits();renderUnitSettings();if(showStatus)setText('unitConfigStatus','Đã tải '+examUnits.length+' đơn vị từ máy chủ.');return true;}throw new Error(data?.error||'Máy chủ chưa hỗ trợ danh sách đơn vị');}catch(e){if(!examUnits.length)examUnits=normalizeExamUnits(DEFAULT_EXAM_UNITS);fillCandidateUnits();renderUnitSettings();if(showStatus)setText('unitConfigStatus','Chưa đồng bộ được máy chủ; đang dùng danh sách lưu trên thiết bị. Cần cập nhật Apps Script V4.');return false;}}
+async function saveExamUnitsToServer(){const rows=[...document.querySelectorAll('#unitSettingsList .unit-name-input')];examUnits=normalizeExamUnits(rows.map(x=>x.value));storeSet('examUnits',JSON.stringify(examUnits));fillCandidateUnits();renderUnitSettings();const pwd=savedServerPassword||document.getElementById('adminPassword')?.value.trim();if(!pwd){setText('unitConfigStatus','Chưa có mật khẩu máy chủ. Hãy đăng nhập ADMIN trước khi đồng bộ.');return;}try{const data=await adminJsonp(RESULT_ENDPOINT+'?action=saveUnits&password='+encodeURIComponent(pwd)+'&units='+encodeURIComponent(JSON.stringify(examUnits))+'&_='+Date.now());if(!data?.ok)throw new Error(data?.error||'Không lưu được');setText('unitConfigStatus','Đã đồng bộ '+examUnits.length+' đơn vị. Tất cả thiết bị sẽ dùng danh sách này.');}catch(e){setText('unitConfigStatus','Đã lưu trên thiết bị nhưng chưa đồng bộ máy chủ: '+e.message);}}
 const anonymousExam=document.getElementById('anonymousExam');
 const examNavGrid=document.getElementById('examNavGrid');
 const navAnsweredCount=document.getElementById('navAnsweredCount');
@@ -1007,6 +1104,7 @@ function beginExam(){
   clearInterval(timerHandle);updateTimer();timerHandle=setInterval(updateTimer,1000);window.scrollTo(0,0);
 }
 function requestStartExam(){
+  loadExamUnits(false);
   const source=getExamSource(),examSize=moduleExamSize();
   if(source.length<examSize){alert(`Nội dung “${currentModule().name}” hiện có ${source.length} câu. Cần tối thiểu ${examSize} câu để thi ${examSize} câu. Hãy bổ sung câu hỏi trong ADMIN → Cài đặt.`);return;}
   setText?.('examLoginInfo',`Nội dung: ${currentModule().name} • ${moduleExamSize()} câu • ${moduleExamMinutes()} phút.`);
@@ -1017,7 +1115,7 @@ function requestStartExam(){
 }
 function confirmStartExam(){
   const anonymous=!!anonymousExam?.checked;
-  const name=candidateName.value.trim(), unit=candidateUnit.value.trim();
+  const name=normalizePersonName(candidateName.value), unit=normalizeUnitName(candidateUnit.value);
   if(!anonymous&&!name){alert('Vui lòng nhập Họ và tên hoặc chọn “Thi ẩn danh”.');candidateName.focus();return;}
   if(!anonymous&&!unit){alert('Vui lòng nhập Đơn vị hoặc chọn “Thi ẩn danh”.');candidateUnit.focus();return;}
   candidate=anonymous?{name:'ẨN DANH',unit:'—',anonymous:true}:{name,unit,anonymous:false};
@@ -1446,7 +1544,11 @@ adminSettingsLayer.addEventListener('click',e=>{if(e.target===adminSettingsLayer
 document.getElementById('startExam').addEventListener('click',requestStartExam);
 document.getElementById('confirmExamStart').addEventListener('click',confirmStartExam);
 document.getElementById('cancelExamStart').addEventListener('click',()=>examLogin.classList.remove('show'));
+candidateName.addEventListener('input',()=>{const pos=candidateName.selectionStart;candidateName.value=candidateName.value.toLocaleUpperCase('vi-VN');try{candidateName.setSelectionRange(pos,pos);}catch(e){}});
 [candidateName,candidateUnit].forEach(el=>el.addEventListener('keydown',e=>{if(e.key==='Enter')confirmStartExam();}));
+document.getElementById('addExamUnit')?.addEventListener('click',()=>{const inp=document.getElementById('newUnitName'),u=normalizeUnitName(inp.value);if(!u){setText('unitConfigStatus','Hãy nhập tên đơn vị.');return;}examUnits=normalizeExamUnits([...examUnits,u]);inp.value='';renderUnitSettings();fillCandidateUnits();setText('unitConfigStatus','Đã thêm vào danh sách dự kiến. Bấm “Lưu & đồng bộ đơn vị” để áp dụng cho mọi thiết bị.');});
+document.getElementById('saveExamUnits')?.addEventListener('click',saveExamUnitsToServer);
+document.getElementById('reloadExamUnits')?.addEventListener('click',()=>loadExamUnits(true));
 if(anonymousExam)anonymousExam.addEventListener('change',()=>{const on=anonymousExam.checked;[candidateName,candidateUnit].forEach(el=>{el.disabled=on;el.closest('.form-row')?.classList.toggle('disabled',on);});if(on){candidateName.value='';candidateUnit.value='';}});
 document.getElementById('nextUnanswered')?.addEventListener('click',goNextUnanswered);
 document.getElementById('examGoTop')?.addEventListener('click',()=>goToExamQuestion(0));
@@ -1535,7 +1637,7 @@ buildAdminModuleFilter();
 // Tăng cường thông tin nội dung thi khi thêm mới.
 const _addModuleBtn=document.getElementById('addQuizModule');
 // renderModuleSettings mới đã xử lý số câu/thời gian; cập nhật danh sách chọn sau mỗi mở Cài đặt.
-document.getElementById('openAdminSettings')?.addEventListener('click',()=>{gradeConfigModuleId=currentModuleId;renderModuleSettings();renderGradeSettings();applyHomeMenuConfig();buildAdminModuleFilter();});
+document.getElementById('openAdminSettings')?.addEventListener('click',()=>{gradeConfigModuleId=currentModuleId;renderModuleSettings();renderGradeSettings();applyHomeMenuConfig();buildAdminModuleFilter();loadExamUnits(false);renderUnitSettings();});
 
 </script>
 
