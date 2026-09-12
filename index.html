@@ -151,6 +151,7 @@ body.exam-mode.home-mode{overflow-y:auto!important;overflow-x:hidden!important}
 .home-card.exam .home-icon{background:linear-gradient(135deg,#b91c1c,#ef4444)}.home-card.exam b,.home-card.exam i{color:#b91c1c}
 .home-card.admin .home-icon{background:linear-gradient(135deg,#0753a6,#2196f3)}.home-card.admin b,.home-card.admin i{color:#0753a6}
 .home-card.ranking .home-icon{background:linear-gradient(135deg,#9a5b00,#e2a10b)}.home-card.ranking b,.home-card.ranking i{color:#8a5200}
+.home-card.guide .home-icon{background:linear-gradient(135deg,#0f766e,#14b8a6)}.home-card.guide b,.home-card.guide i{color:#0f766e}
 .home-foot{margin-top:34px;font-weight:800;letter-spacing:1px;opacity:.92;text-shadow:0 2px 8px #000}
 body.home-mode{padding-bottom:0!important;overflow:hidden;background:#0b2036} body.home-mode>header,body.home-mode>.modebar,body.home-mode>.study-main,body.home-mode>#backTop{display:none!important}
 body:not(.home-mode)>.home-screen{display:none}
@@ -603,6 +604,85 @@ button,input,select,textarea{font-family:"Times New Roman",Times,serif}
 .exam-review-mode .exam-card.review-wrong{border-color:#ef4444!important;box-shadow:0 0 0 2px rgba(239,68,68,.10)!important}
 .exam-review-mode .exam-card.review-correct{border-color:#22c55e!important}
 .auto-submit-note{margin:0 0 8px;font-weight:700;color:#9a3412}
+
+
+/* ===== V31: ICON SỔ TAY NHỎ GÓC PHẢI TRÊN ===== */
+body:not(.home-mode) .guide-corner-btn{display:none!important}
+.guide-corner-btn{
+  position:fixed;top:12px;right:14px;z-index:359000;
+  width:46px;height:46px;border:1px solid rgba(255,255,255,.65);
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  padding:0;background:rgba(15,118,110,.94);color:#fff;
+  box-shadow:0 6px 18px rgba(15,23,42,.24);cursor:pointer;
+  font-size:25px;line-height:1;backdrop-filter:blur(5px);
+  -webkit-backdrop-filter:blur(5px);
+}
+.guide-corner-btn:hover{transform:translateY(-1px);filter:brightness(1.06)}
+.guide-corner-btn:active{transform:scale(.96)}
+.guide-corner-btn::after{
+  content:"Hướng dẫn";position:absolute;right:52px;top:50%;transform:translateY(-50%);
+  background:#0f172a;color:#fff;font:700 13px "Times New Roman",Times,serif;
+  padding:5px 8px;border-radius:7px;white-space:nowrap;opacity:0;pointer-events:none;
+  transition:opacity .15s ease;
+}
+.guide-corner-btn:hover::after{opacity:1}
+@media(max-width:760px){
+  .guide-corner-btn{top:8px;right:8px;width:40px;height:40px;font-size:22px}
+  .guide-corner-btn::after{display:none}
+}
+
+/* ===== V30: SỔ TAY HƯỚNG DẪN / QUY ĐỊNH THI ===== */
+.guide-overlay{display:none;position:fixed;inset:0;z-index:360000;background:#eef4f8;overflow:auto}
+.guide-overlay.show{display:block}
+.guide-shell{width:min(1100px,96vw);margin:18px auto 34px;background:#fff;border:1px solid #d7e1ea;border-radius:18px;box-shadow:0 18px 60px #0f172a26;overflow:hidden}
+.guide-head{position:sticky;top:0;z-index:4;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:16px 20px;background:linear-gradient(120deg,#0b4f6c,#0f766e);color:#fff}
+.guide-head-title{display:flex;align-items:center;gap:12px;min-width:0}
+.guide-head-title .book{font-size:34px}
+.guide-head-title b{display:block;font-size:24px;line-height:1.1}
+.guide-head-title span{display:block;margin-top:3px;font-size:13px;opacity:.9}
+.guide-head-actions{display:flex;gap:8px;flex-wrap:wrap}
+.guide-head button{border:0;border-radius:9px;padding:9px 12px;font-family:"Times New Roman",Times,serif;font-weight:800;cursor:pointer;background:#fff;color:#0f5f65}
+.guide-body{padding:20px}
+.guide-notice{padding:12px 14px;border:1px solid #99f6e4;background:#f0fdfa;border-radius:12px;color:#115e59;margin-bottom:16px}
+.guide-meta{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:start;padding:13px 15px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;margin-bottom:16px}
+.guide-meta b{color:#0f4c5c}.guide-meta small{color:#64748b}
+.guide-content{white-space:pre-wrap;line-height:1.62;font-size:17px;color:#1e293b}
+.guide-content:empty:before{content:"Chưa có nội dung hướng dẫn.";color:#94a3b8;font-style:italic}
+.guide-dynamic-title{margin:24px 0 10px;font-size:21px;color:#0f4c5c;border-bottom:2px solid #ccfbf1;padding-bottom:7px}
+.guide-module-grid{display:grid;gap:12px}
+.guide-module-card{border:1px solid #dbe5ec;border-radius:12px;padding:14px;background:#fbfdff}
+.guide-module-card h4{margin:0 0 8px;color:#0b4f6c;font-size:18px}
+.guide-module-card .guide-facts{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:9px}
+.guide-pill{display:inline-block;padding:5px 9px;border-radius:999px;background:#e6fffb;color:#115e59;font-weight:800;font-size:13px}
+.guide-grade-table{width:100%;border-collapse:collapse}
+.guide-grade-table th,.guide-grade-table td{padding:7px 8px;border-bottom:1px solid #e2e8f0;text-align:left;font-size:14px}
+.guide-grade-table th{background:#f1f5f9;color:#334155}
+.guide-editor-card textarea#examGuideContentInput{min-height:360px;resize:vertical;line-height:1.5}
+.guide-editor-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.guide-import-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:9px 0}
+.guide-import-row input[type=file]{flex:1 1 260px}
+.guide-preview-box{margin-top:10px;padding:12px;border:1px dashed #94a3b8;border-radius:10px;background:#f8fafc;white-space:pre-wrap;max-height:260px;overflow:auto}
+@media(max-width:1000px){.home-menu{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:760px){
+  .guide-shell{width:100%;margin:0;min-height:100vh;border-radius:0}
+  .guide-head{align-items:flex-start;padding:12px}
+  .guide-head-title .book{font-size:28px}.guide-head-title b{font-size:20px}
+  .guide-head-actions{flex-direction:column}.guide-head button{padding:8px 10px}
+  .guide-body{padding:13px 11px 28px}
+  .guide-meta{grid-template-columns:1fr}
+  .guide-content{font-size:16px}
+  .guide-editor-row{grid-template-columns:1fr}
+}
+
+
+/* ===== V33: BỎ MŨI TÊN HƯỚNG PHẢI Ở CÁC MỤC TRANG CHỦ ===== */
+.home-menu .home-card > i{display:none!important}
+
+
+/* ===== V34: ICON SỔ TAY CHỈ HIỆN KHI TRANG CHỦ THỰC SỰ ĐANG MỞ ===== */
+.guide-corner-btn{display:none!important}
+body.guide-home-visible .guide-corner-btn{display:flex!important}
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/mammoth@1.8.0/mammoth.browser.min.js">
 loadExamUnits(false);
@@ -610,6 +690,7 @@ loadExamUnits(false);
 <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
 </head>
 <body id="dau-trang" class="home-mode">
+<button class="guide-corner-btn" id="homeGuide" type="button" title="Sổ tay hướng dẫn / Quy định thi" aria-label="Mở Sổ tay hướng dẫn">📖</button>
 <section class="home-screen" id="homeScreen" aria-label="Trang chủ">
   <div class="home-bg"></div>
   <div class="home-shade"></div>
@@ -631,7 +712,7 @@ loadExamUnits(false);
       <button class="home-card ranking" id="homeRanking" type="button">
         <span class="home-icon">🏆</span><span><b id="homeRankingTitle">KẾT QUẢ<br>THI</b><small id="homeRankingDesc">Xem kết quả theo từng nội dung thi</small></span><i>→</i>
       </button>
-      <button class="home-card admin" id="homeAdmin" type="button">
+<button class="home-card admin" id="homeAdmin" type="button">
         <span class="home-icon">📊</span><span><b id="homeAdminTitle">ADMIN</b><small id="homeAdminDesc">Dành cho quản trị viên</small></span><i>→</i>
       </button>
     </div>
@@ -720,6 +801,25 @@ loadExamUnits(false);
   </div>
 </div>
 
+<div class="guide-overlay" id="guideOverlay" aria-hidden="true">
+  <div class="guide-shell" role="dialog" aria-modal="true" aria-labelledby="guideViewTitle">
+    <div class="guide-head">
+      <div class="guide-head-title"><span class="book">📚</span><div><b id="guideViewTitle">SỔ TAY HƯỚNG DẪN / QUY ĐỊNH THI</b><span>Nội dung do quản trị viên cập nhật</span></div></div>
+      <div class="guide-head-actions">
+        <button id="guideHomeBtn" type="button">⌂ Trang chủ</button>
+        <button id="closeGuideBtn" type="button">✕ Đóng</button>
+      </div>
+    </div>
+    <div class="guide-body">
+      <div class="guide-notice"><b>Lưu ý:</b> Nội dung dưới đây là sổ tay nội bộ do quản trị viên hệ thống cập nhật. Khi có văn bản mới, hãy đối chiếu đúng văn bản đang có hiệu lực.</div>
+      <div class="guide-meta"><div><b id="guideSourceView">Căn cứ: Chưa cập nhật</b></div><small id="guideUpdatedView"></small></div>
+      <div id="guideContentView" class="guide-content"></div>
+      <h3 class="guide-dynamic-title">CẤU HÌNH THI & TIÊU CHÍ ĐÁNH GIÁ HIỆN HÀNH</h3>
+      <div id="guideModuleGrid" class="guide-module-grid"></div>
+    </div>
+  </div>
+</div>
+
 <div class="study-select-overlay" id="studySelectOverlay" aria-hidden="true">
   <div class="study-select-dialog" role="dialog" aria-modal="true" aria-labelledby="studySelectTitle">
     <div class="study-select-head"><div><b id="studySelectTitle">CHỌN NỘI DUNG ÔN THI</b><span>Chọn nội dung cần ôn luyện</span></div><button id="closeStudySelect" type="button">✕</button></div>
@@ -739,7 +839,7 @@ loadExamUnits(false);
       <div>
         <div class="admin-kicker">TỔNG CỤC HC-KT • TRƯỜNG CAO ĐẲNG HẬU CẦN 1</div>
         <h2 id="adminTitle">TRUNG TÂM QUẢN TRỊ KẾT QUẢ THI</h2>
-        <p>Dữ liệu đồng bộ trực tiếp từ Google Sheets</p>
+        <p></p>
       </div>
       <button class="admin-close" id="closeAdmin" type="button">⌂ Trang chủ</button>
     </div>
@@ -748,7 +848,7 @@ loadExamUnits(false);
       <label for="adminPassword"><b>Mật khẩu quản trị</b></label>
       <input id="adminPassword" type="password" autocomplete="current-password" placeholder="Nhập mật khẩu">
       <button class="actionbtn admin" id="adminLoginBtn" type="button" style="width:100%">Đăng nhập</button>
-      <div class="hint">Mật khẩu được kiểm tra tại Google Apps Script.</div>
+      <div class="hint">.</div>
       <div class="admin-status" id="adminStatus"></div>
     </div>
     <div class="admin-content" id="adminContent">
@@ -813,6 +913,7 @@ loadExamUnits(false);
           <div class="home-config-row"><label>Ôn thi</label><input id="cfgStudyTitle" placeholder="Tên mục"><input id="cfgStudyDesc" placeholder="Chú thích"></div>
           <div class="home-config-row"><label>Thi thử</label><input id="cfgExamTitle" placeholder="Tên mục"><input id="cfgExamDesc" placeholder="Chú thích"></div>
           <div class="home-config-row"><label>Kết quả thi</label><input id="cfgRankingTitle" placeholder="Tên mục"><input id="cfgRankingDesc" placeholder="Chú thích"></div>
+          <div class="home-config-row"><label>Hướng dẫn</label><input id="cfgGuideTitle" placeholder="Tên mục"><input id="cfgGuideDesc" placeholder="Chú thích"></div>
           <div class="home-config-row"><label>Admin</label><input id="cfgAdminTitle" placeholder="Tên mục"><input id="cfgAdminDesc" placeholder="Chú thích"></div>
           <input id="cfgHomeSubtitle" placeholder="Dòng chú thích dưới tiêu đề hệ thống">
           <button id="saveHomeMenuConfig" type="button">Lưu tên & chú thích</button>
@@ -843,8 +944,29 @@ loadExamUnits(false);
           <div class="config-status" id="unitConfigStatus"></div>
           <div class="config-note">Danh sách được lưu tập trung qua Google Apps Script và đồng thời giữ bản LocalStorage để sử dụng khi mất mạng.</div>
         </section>
+        <section class="admin-config-card guide-editor-card" style="grid-column:1/-1">
+          <h3>8. SỔ TAY HƯỚNG DẪN / QUY ĐỊNH THI</h3>
+          <p>Biên tập nội dung hướng dẫn dùng chung. Khi có thông tư, quy định hoặc văn bản mới, có thể sửa trực tiếp hoặc nạp nội dung từ file Word/TXT rồi lưu và đồng bộ lên máy chủ.</p>
+          <div class="guide-editor-row">
+            <input id="examGuideTitleInput" type="text" placeholder="Tiêu đề sổ tay / hướng dẫn">
+            <input id="examGuideSourceInput" type="text" placeholder="Căn cứ / văn bản áp dụng (ví dụ: Thông tư..., Quyết định...)">
+          </div>
+          <textarea id="examGuideContentInput" placeholder="Nhập nội dung hướng dẫn, quy định, tiêu chuẩn đạt, lưu ý khi thi..."></textarea>
+          <div class="guide-import-row">
+            <input id="examGuideFileInput" type="file" accept=".docx,.txt,text/plain,application/vnd.openxmlformats-officedocument.wordprocessingml.document">
+            <button id="loadGuideFileBtn" type="button" class="secondary">📄 Nạp nội dung từ Word/TXT</button>
+            <button id="previewGuideBtn" type="button" class="secondary">👁 Xem trước</button>
+          </div>
+          <div id="examGuidePreview" class="guide-preview-box" style="display:none"></div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+            <button id="saveExamGuideBtn" type="button">💾 Lưu hướng dẫn</button>
+            <button id="resetExamGuideBtn" type="button" class="secondary">Khôi phục nội dung mẫu</button>
+          </div>
+          <div class="config-status" id="examGuideStatus"></div>
+          <div class="config-note">Phần “Cấu hình thi hiện hành” trong Sổ tay được lấy tự động từ số câu, thời gian và tiêu chí xếp loại đang cài cho từng nội dung thi; không cần nhập lại thủ công.</div>
+        </section>
         <section class="admin-config-card copyright-config-card">
-          <h3>8. THÔNG TIN BẢN QUYỀN</h3>
+          <h3>9. THÔNG TIN BẢN QUYỀN</h3>
           <p>Thông tin tác giả và liên hệ hiển thị cố định trong hệ thống.</p>
           <div class="copyright-settings-box"><b>LÊ TRỌNG HÙNG</b><span>0332.570.415</span></div>
           <div class="config-note">Bản quyền: LÊ TRỌNG HÙNG • 0332.570.415</div>
@@ -1330,7 +1452,7 @@ function adminJsonp(url,timeout=15000){
 }
 async function loadAdminData(password){
   if(!RESULT_ENDPOINT){showAdminStatus('Chưa cấu hình Google Sheets.',true);return;}
-  showAdminStatus('Đang tải dữ liệu từ Google Sheets…');
+  showAdminStatus('');
   try{
     const url=RESULT_ENDPOINT+'?action=list&password='+encodeURIComponent(password);
     const data=await adminJsonp(url);
@@ -1601,15 +1723,15 @@ document.getElementById('exitExam').addEventListener('click',exitExam);
 
 
 // ===== V7: đa nội dung cho ÔN THI / THI THỬ / KẾT QUẢ THI + cấu hình linh hoạt =====
-const DEFAULT_HOME_MENU_CONFIG={studyTitle:'ÔN THI',studyDesc:'Chọn nội dung để ôn luyện',examTitle:'THI THỬ',examDesc:'Chọn nội dung để thi thử',rankingTitle:'KẾT QUẢ THI',rankingDesc:'Xem kết quả theo từng nội dung thi',adminTitle:'ADMIN',adminDesc:'Dành cho quản trị viên',subtitle:'Hệ thống ôn tập • Thi thử • Quản trị kết quả tập trung'};
+const DEFAULT_HOME_MENU_CONFIG={studyTitle:'ÔN THI',studyDesc:'Chọn nội dung để ôn luyện',examTitle:'THI THỬ',examDesc:'Chọn nội dung để thi thử',rankingTitle:'KẾT QUẢ THI',rankingDesc:'Xem kết quả theo từng nội dung thi',guideTitle:'HƯỚNG DẪN',guideDesc:'Quy định, tiêu chuẩn và hướng dẫn thi',adminTitle:'ADMIN',adminDesc:'Dành cho quản trị viên',subtitle:'Hệ thống ôn tập • Thi thử • Hướng dẫn • Quản trị kết quả tập trung'};
 let homeMenuConfig={...DEFAULT_HOME_MENU_CONFIG};try{homeMenuConfig={...DEFAULT_HOME_MENU_CONFIG,...JSON.parse(storeGet('homeMenuConfig')||'{}')};}catch(e){}
 function setText(id,v){const el=document.getElementById(id);if(el)el.textContent=v;}
 function applyHomeMenuConfig(){
   setText('homeStudyTitle',homeMenuConfig.studyTitle);setText('homeStudyDesc',homeMenuConfig.studyDesc);setText('homeExamTitle',homeMenuConfig.examTitle);setText('homeExamDesc',homeMenuConfig.examDesc);
-  const rt=document.getElementById('homeRankingTitle');if(rt)rt.innerHTML=escapeHtml(homeMenuConfig.rankingTitle).replace(/\s+/g,' ').replace(' ','<br>');setText('homeRankingDesc',homeMenuConfig.rankingDesc);setText('homeAdminTitle',homeMenuConfig.adminTitle);setText('homeAdminDesc',homeMenuConfig.adminDesc);setText('homeSystemSubtitle',homeMenuConfig.subtitle);
-  const map={cfgStudyTitle:'studyTitle',cfgStudyDesc:'studyDesc',cfgExamTitle:'examTitle',cfgExamDesc:'examDesc',cfgRankingTitle:'rankingTitle',cfgRankingDesc:'rankingDesc',cfgAdminTitle:'adminTitle',cfgAdminDesc:'adminDesc',cfgHomeSubtitle:'subtitle'};Object.entries(map).forEach(([id,k])=>{const el=document.getElementById(id);if(el)el.value=homeMenuConfig[k]||'';});
+  const rt=document.getElementById('homeRankingTitle');if(rt)rt.innerHTML=escapeHtml(homeMenuConfig.rankingTitle).replace(/\s+/g,' ').replace(' ','<br>');setText('homeRankingDesc',homeMenuConfig.rankingDesc);setText('homeGuideTitle',homeMenuConfig.guideTitle);setText('homeGuideDesc',homeMenuConfig.guideDesc);setText('homeAdminTitle',homeMenuConfig.adminTitle);setText('homeAdminDesc',homeMenuConfig.adminDesc);setText('homeSystemSubtitle',homeMenuConfig.subtitle);
+  const map={cfgStudyTitle:'studyTitle',cfgStudyDesc:'studyDesc',cfgExamTitle:'examTitle',cfgExamDesc:'examDesc',cfgRankingTitle:'rankingTitle',cfgRankingDesc:'rankingDesc',cfgGuideTitle:'guideTitle',cfgGuideDesc:'guideDesc',cfgAdminTitle:'adminTitle',cfgAdminDesc:'adminDesc',cfgHomeSubtitle:'subtitle'};Object.entries(map).forEach(([id,k])=>{const el=document.getElementById(id);if(el)el.value=homeMenuConfig[k]||'';});
 }
-const saveHomeBtn=document.getElementById('saveHomeMenuConfig');if(saveHomeBtn)saveHomeBtn.addEventListener('click',()=>{const g=id=>(document.getElementById(id)?.value||'').trim();homeMenuConfig={studyTitle:g('cfgStudyTitle')||DEFAULT_HOME_MENU_CONFIG.studyTitle,studyDesc:g('cfgStudyDesc'),examTitle:g('cfgExamTitle')||DEFAULT_HOME_MENU_CONFIG.examTitle,examDesc:g('cfgExamDesc'),rankingTitle:g('cfgRankingTitle')||DEFAULT_HOME_MENU_CONFIG.rankingTitle,rankingDesc:g('cfgRankingDesc'),adminTitle:g('cfgAdminTitle')||DEFAULT_HOME_MENU_CONFIG.adminTitle,adminDesc:g('cfgAdminDesc'),subtitle:g('cfgHomeSubtitle')};storeSet('homeMenuConfig',JSON.stringify(homeMenuConfig));applyHomeMenuConfig();setText('homeMenuConfigStatus','Đã cập nhật tên và chú thích các mục Trang chủ.');});
+const saveHomeBtn=document.getElementById('saveHomeMenuConfig');if(saveHomeBtn)saveHomeBtn.addEventListener('click',()=>{const g=id=>(document.getElementById(id)?.value||'').trim();homeMenuConfig={studyTitle:g('cfgStudyTitle')||DEFAULT_HOME_MENU_CONFIG.studyTitle,studyDesc:g('cfgStudyDesc'),examTitle:g('cfgExamTitle')||DEFAULT_HOME_MENU_CONFIG.examTitle,examDesc:g('cfgExamDesc'),rankingTitle:g('cfgRankingTitle')||DEFAULT_HOME_MENU_CONFIG.rankingTitle,rankingDesc:g('cfgRankingDesc'),guideTitle:g('cfgGuideTitle')||DEFAULT_HOME_MENU_CONFIG.guideTitle,guideDesc:g('cfgGuideDesc'),adminTitle:g('cfgAdminTitle')||DEFAULT_HOME_MENU_CONFIG.adminTitle,adminDesc:g('cfgAdminDesc'),subtitle:g('cfgHomeSubtitle')};storeSet('homeMenuConfig',JSON.stringify(homeMenuConfig));applyHomeMenuConfig();setText('homeMenuConfigStatus','Đã cập nhật tên và chú thích các mục Trang chủ.');});
 applyHomeMenuConfig();
 
 function refreshGradeModuleSelect(){
@@ -1681,7 +1803,7 @@ buildAdminModuleFilter();
 // Tăng cường thông tin nội dung thi khi thêm mới.
 const _addModuleBtn=document.getElementById('addQuizModule');
 // renderModuleSettings mới đã xử lý số câu/thời gian; cập nhật danh sách chọn sau mỗi mở Cài đặt.
-document.getElementById('openAdminSettings')?.addEventListener('click',()=>{gradeConfigModuleId=currentModuleId;renderModuleSettings();renderGradeSettings();applyHomeMenuConfig();buildAdminModuleFilter();loadExamUnits(false);renderUnitSettings();});
+document.getElementById('openAdminSettings')?.addEventListener('click',()=>{gradeConfigModuleId=currentModuleId;renderModuleSettings();renderGradeSettings();applyHomeMenuConfig();buildAdminModuleFilter();loadExamUnits(false);renderUnitSettings();try{fillGuideEditor();}catch(e){}});
 
 </script>
 
@@ -1745,6 +1867,133 @@ document.getElementById('openAdminSettings')?.addEventListener('click',()=>{grad
 </script>
 
 
+
+<script>
+/* ===== V30: SỔ TAY HƯỚNG DẪN / QUY ĐỊNH THI ===== */
+const DEFAULT_EXAM_GUIDE_CONFIG={
+  title:'SỔ TAY HƯỚNG DẪN / QUY ĐỊNH THI',
+  source:'Chưa cập nhật văn bản/căn cứ áp dụng',
+  content:`I. MỤC ĐÍCH
+Sổ tay này giúp người dự thi nắm được cách thức tổ chức thi, tiêu chí đánh giá và các quy định cần thực hiện trước, trong và sau khi làm bài.
+
+II. TRƯỚC KHI THI
+- Chọn đúng nội dung thi.
+- Nhập họ và tên, đơn vị theo yêu cầu của hệ thống.
+- Kiểm tra số câu hỏi và thời gian làm bài trước khi bắt đầu.
+- Trường hợp chọn thi ẩn danh, kết quả có thể không được lưu vào bảng thống kê.
+
+III. TRONG KHI LÀM BÀI
+- Đọc kỹ câu hỏi và các phương án trước khi lựa chọn.
+- Có thể sử dụng Danh sách câu hỏi để chuyển nhanh đến câu cần làm.
+- Theo dõi thời gian còn lại và số câu chưa trả lời.
+- Không đóng hoặc tải lại trang khi đang làm bài nếu chưa cần thiết.
+
+IV. NỘP BÀI VÀ XEM KẾT QUẢ
+- Sau khi nộp bài, hệ thống hiển thị kết quả thi và xếp loại theo tiêu chí đang được cài đặt cho từng nội dung.
+- Có thể chọn Xem lại bài thi để kiểm tra câu đúng, câu sai.
+- Tiêu chuẩn đạt, số câu thi và thời gian làm bài được hiển thị tự động ở phần “Cấu hình thi & tiêu chí đánh giá hiện hành” bên dưới.
+
+V. CẬP NHẬT VĂN BẢN
+Khi có thông tư, quyết định, hướng dẫn hoặc quy định mới, quản trị viên cập nhật lại phần căn cứ và nội dung sổ tay trong ADMIN → CÀI ĐẶT HỆ THỐNG → SỔ TAY HƯỚNG DẪN / QUY ĐỊNH THI.`,
+  updatedAt:''
+};
+let examGuideConfig={...DEFAULT_EXAM_GUIDE_CONFIG};
+try{examGuideConfig={...DEFAULT_EXAM_GUIDE_CONFIG,...JSON.parse(storeGet('examGuideConfig')||'{}')};}catch(e){}
+
+function saveExamGuideLocal(){
+  storeSet('examGuideConfig',JSON.stringify(examGuideConfig));
+}
+function formatGuideDate(iso){
+  if(!iso)return 'Chưa ghi nhận thời điểm cập nhật';
+  try{return 'Cập nhật: '+new Date(iso).toLocaleString('vi-VN');}catch(e){return 'Cập nhật: '+iso;}
+}
+function renderGuideModuleGrid(){
+  const box=document.getElementById('guideModuleGrid'); if(!box)return;
+  const modules=Array.isArray(quizModules)?quizModules:[];
+  box.innerHTML=modules.map(m=>{
+    const levels=(typeof getGradeLevels==='function'?getGradeLevels(m.id):[]).slice().sort((a,b)=>a.min-b.min);
+    const rows=levels.map((g,i)=>{
+      const next=levels[i+1];
+      const range=next?`${g.min}% đến dưới ${next.min}%`:`Từ ${g.min}% trở lên`;
+      return `<tr><td>${escapeHtml(g.label)}</td><td>${range}</td></tr>`;
+    }).join('');
+    return `<div class="guide-module-card">
+      <h4>${escapeHtml(m.name)}</h4>
+      <div class="guide-facts"><span class="guide-pill">${Math.max(1,Number(m.examSize)||100)} câu</span><span class="guide-pill">${Math.max(1,Number(m.examMinutes)||90)} phút</span></div>
+      <table class="guide-grade-table"><thead><tr><th>Xếp loại</th><th>Ngưỡng điểm</th></tr></thead><tbody>${rows}</tbody></table>
+    </div>`;
+  }).join('')||'<div class="guide-notice">Chưa có nội dung thi được cấu hình.</div>';
+}
+function renderExamGuide(){
+  setText('guideViewTitle',examGuideConfig.title||DEFAULT_EXAM_GUIDE_CONFIG.title);
+  const s=document.getElementById('guideSourceView');if(s)s.textContent='Căn cứ: '+(examGuideConfig.source||'Chưa cập nhật');
+  setText('guideUpdatedView',formatGuideDate(examGuideConfig.updatedAt));
+  setText('guideContentView',examGuideConfig.content||'');
+  renderGuideModuleGrid();
+}
+function fillGuideEditor(){
+  const t=document.getElementById('examGuideTitleInput'),s=document.getElementById('examGuideSourceInput'),c=document.getElementById('examGuideContentInput');
+  if(t)t.value=examGuideConfig.title||'';if(s)s.value=examGuideConfig.source||'';if(c)c.value=examGuideConfig.content||'';
+}
+function openExamGuide(){
+  renderExamGuide();
+  const o=document.getElementById('guideOverlay');if(o){o.classList.add('show');o.setAttribute('aria-hidden','false');}
+  document.body.style.overflow='hidden';
+}
+function closeExamGuide(){
+  const o=document.getElementById('guideOverlay');if(o){o.classList.remove('show');o.setAttribute('aria-hidden','true');}
+  document.body.style.overflow='';
+}
+document.getElementById('homeGuide')?.addEventListener('click',openExamGuide);
+document.getElementById('closeGuideBtn')?.addEventListener('click',closeExamGuide);
+document.getElementById('guideHomeBtn')?.addEventListener('click',()=>{closeExamGuide();try{showHome();}catch(e){}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.getElementById('guideOverlay')?.classList.contains('show'))closeExamGuide();});
+
+document.getElementById('openAdminSettings')?.addEventListener('click',()=>setTimeout(fillGuideEditor,0));
+document.getElementById('saveExamGuideBtn')?.addEventListener('click',()=>{
+  const title=(document.getElementById('examGuideTitleInput')?.value||'').trim()||DEFAULT_EXAM_GUIDE_CONFIG.title;
+  const source=(document.getElementById('examGuideSourceInput')?.value||'').trim();
+  const content=(document.getElementById('examGuideContentInput')?.value||'').trim();
+  examGuideConfig={title,source,content,updatedAt:new Date().toISOString()};
+  saveExamGuideLocal();
+  setText('examGuideStatus','Đã lưu Sổ tay hướng dẫn trên thiết bị. Hệ thống sẽ đồng bộ lên máy chủ khi có kết nối.');
+  renderExamGuide();
+});
+document.getElementById('resetExamGuideBtn')?.addEventListener('click',()=>{
+  if(!confirm('Khôi phục nội dung Sổ tay về mẫu mặc định?'))return;
+  examGuideConfig={...DEFAULT_EXAM_GUIDE_CONFIG,updatedAt:new Date().toISOString()};
+  saveExamGuideLocal();fillGuideEditor();renderExamGuide();
+  setText('examGuideStatus','Đã khôi phục nội dung mẫu.');
+});
+document.getElementById('previewGuideBtn')?.addEventListener('click',()=>{
+  const p=document.getElementById('examGuidePreview');if(!p)return;
+  const title=(document.getElementById('examGuideTitleInput')?.value||'').trim();
+  const source=(document.getElementById('examGuideSourceInput')?.value||'').trim();
+  const content=(document.getElementById('examGuideContentInput')?.value||'').trim();
+  p.textContent=(title?title+'\n\n':'')+(source?'Căn cứ: '+source+'\n\n':'')+content;
+  p.style.display='block';
+});
+document.getElementById('loadGuideFileBtn')?.addEventListener('click',async()=>{
+  const input=document.getElementById('examGuideFileInput'),file=input?.files?.[0];
+  if(!file){setText('examGuideStatus','Hãy chọn file Word (.docx) hoặc TXT trước.');return;}
+  try{
+    let raw='';
+    if(/\.docx$/i.test(file.name)){
+      if(!window.mammoth)throw new Error('Chưa tải được thư viện đọc Word.');
+      const ab=await file.arrayBuffer();
+      const r=await mammoth.extractRawText({arrayBuffer:ab});
+      raw=String(r.value||'').trim();
+    }else{
+      raw=(await file.text()).trim();
+    }
+    if(!raw)throw new Error('File không có nội dung văn bản đọc được.');
+    const ta=document.getElementById('examGuideContentInput');if(ta)ta.value=raw;
+    setText('examGuideStatus','Đã nạp nội dung từ file '+file.name+'. Kiểm tra lại rồi bấm “Lưu hướng dẫn”.');
+  }catch(e){setText('examGuideStatus','Không nạp được file: '+e.message);}
+});
+fillGuideEditor();
+</script>
+
 <script>
 /* ===== V24: LƯU TẬP TRUNG + LOCALSTORAGE DỰ PHÒNG KHI MẤT MẠNG ===== */
 (function(){
@@ -1774,12 +2023,13 @@ document.getElementById('openAdminSettings')?.addEventListener('click',()=>{grad
       action:'saveCentral',
       password:getCentralPassword(),
       config:{
-        version:26,
+        version:35,
         savedAt:new Date().toISOString(),
         syncToken:'sync-'+Date.now()+'-'+Math.random().toString(36).slice(2),
         quizModules:cloneJSON(quizModules||[]),
         moduleGradeLevels:cloneJSON(moduleGradeLevels||{}),
         homeMenuConfig:cloneJSON(homeMenuConfig||{}),
+        examGuideConfig:cloneJSON(examGuideConfig||{}),
         branding:{
           systemTitle:storeGet('systemTitle')||defaultSystemTitle,
           brand1:storeGet('brand1')||defaultBrand1,
@@ -1838,6 +2088,7 @@ document.getElementById('openAdminSettings')?.addEventListener('click',()=>{grad
     storeSet('moduleQuestionBanks',JSON.stringify(moduleBanks||{}));
     storeSet('moduleGradeLevels',JSON.stringify(moduleGradeLevels||{}));
     storeSet('homeMenuConfig',JSON.stringify(homeMenuConfig||{}));
+    storeSet('examGuideConfig',JSON.stringify(examGuideConfig||{}));
     storeSet('examUnits',JSON.stringify(examUnits||[]));
   }
   function applyCentralBundle(data,showMessage=true){
@@ -1852,6 +2103,7 @@ document.getElementById('openAdminSettings')?.addEventListener('click',()=>{grad
       if(data.banks&&typeof data.banks==='object') moduleBanks=cloneJSON(data.banks);
       if(cfg.moduleGradeLevels&&typeof cfg.moduleGradeLevels==='object') moduleGradeLevels=cloneJSON(cfg.moduleGradeLevels);
       if(cfg.homeMenuConfig&&typeof cfg.homeMenuConfig==='object') homeMenuConfig={...DEFAULT_HOME_MENU_CONFIG,...cfg.homeMenuConfig};
+      if(cfg.examGuideConfig&&typeof cfg.examGuideConfig==='object') examGuideConfig={...DEFAULT_EXAM_GUIDE_CONFIG,...cfg.examGuideConfig};
       if(Array.isArray(cfg.examUnits)) examUnits=normalizeExamUnits(cfg.examUnits);
       const br=cfg.branding||{};
       if(br.systemTitle)storeSet('systemTitle',br.systemTitle);
@@ -1865,6 +2117,7 @@ document.getElementById('openAdminSettings')?.addEventListener('click',()=>{grad
       saveCentralLocalSnapshot({config:cfg,banks:moduleBanks});
       try{applyBranding();}catch(e){}
       try{applyHomeMenuConfig();}catch(e){}
+      try{fillGuideEditor();renderExamGuide();}catch(e){}
       try{fillCandidateUnits();renderUnitSettings();}catch(e){}
       try{renderModuleSettings();refreshQuestionModuleSelect();refreshGradeModuleSelect();renderGradeSettings();refreshActionModuleLists();renderStudyModuleList();buildAdminModuleFilter();}catch(e){console.warn('central render',e);}
       try{updateQuestionStatus();}catch(e){}
@@ -1897,6 +2150,8 @@ document.getElementById('openAdminSettings')?.addEventListener('click',()=>{grad
 
   // Các nút lưu trực tiếp không đi qua hai hàm trên.
   document.getElementById('saveHomeMenuConfig')?.addEventListener('click',()=>scheduleCentralSync(400));
+  document.getElementById('saveExamGuideBtn')?.addEventListener('click',()=>scheduleCentralSync(400));
+  document.getElementById('resetExamGuideBtn')?.addEventListener('click',()=>scheduleCentralSync(400));
   document.getElementById('saveGradeSettings')?.addEventListener('click',()=>scheduleCentralSync(400));
   document.getElementById('saveExamUnits')?.addEventListener('click',()=>scheduleCentralSync(700));
   document.getElementById('saveBranding')?.addEventListener('click',()=>setTimeout(()=>scheduleCentralSync(100),1200));
@@ -1921,6 +2176,81 @@ document.getElementById('openAdminSettings')?.addEventListener('click',()=>{grad
 
   // Tải dữ liệu trung tâm khi mở trang; trước đó giao diện đã dùng LocalStorage nên không bị treo khi mất mạng.
   setTimeout(()=>loadCentralData(false),250);
+})();
+</script>
+
+
+<script>
+/* ===== V34: ĐỒNG BỘ HIỂN THỊ ICON SỔ TAY VỚI TRANG CHỦ ===== */
+(function(){
+  function isActuallyVisible(el){
+    if(!el) return false;
+    const cs=getComputedStyle(el);
+    if(cs.display==='none'||cs.visibility==='hidden'||Number(cs.opacity)===0) return false;
+    const r=el.getBoundingClientRect();
+    return r.width>0 && r.height>0;
+  }
+  function syncGuideHomeIcon(){
+    const home=document.getElementById('homePage') ||
+               document.querySelector('.home-page') ||
+               document.querySelector('.home-screen') ||
+               document.querySelector('main.home') ||
+               document.querySelector('.home-wrap');
+    const admin=document.getElementById('adminOverlay') || document.querySelector('.admin-overlay');
+    const ranking=document.getElementById('rankingOverlay') || document.querySelector('.ranking-overlay');
+    const study=document.getElementById('studyOverlay') || document.querySelector('.study-overlay');
+    const exam=document.getElementById('examOverlay') || document.querySelector('.exam-overlay');
+
+    let show = document.body.classList.contains('home-mode');
+    if(home) show = isActuallyVisible(home);
+    if((admin&&isActuallyVisible(admin)) || (ranking&&isActuallyVisible(ranking)) ||
+       (study&&isActuallyVisible(study)) || (exam&&isActuallyVisible(exam))){
+      show=false;
+    }
+    document.body.classList.toggle('guide-home-visible', !!show);
+  }
+
+  window.syncGuideHomeIcon=syncGuideHomeIcon;
+
+  document.addEventListener('click', function(){
+    setTimeout(syncGuideHomeIcon,0);
+    setTimeout(syncGuideHomeIcon,80);
+    setTimeout(syncGuideHomeIcon,250);
+  }, true);
+
+  const observer=new MutationObserver(()=>syncGuideHomeIcon());
+  observer.observe(document.body,{attributes:true,attributeFilter:['class'],subtree:true});
+  window.addEventListener('hashchange',syncGuideHomeIcon);
+  window.addEventListener('popstate',syncGuideHomeIcon);
+  window.addEventListener('load',()=>setTimeout(syncGuideHomeIcon,50));
+  setTimeout(syncGuideHomeIcon,100);
+})();
+</script>
+
+
+<script>
+/* ===== V35: ẨN CÁC THÔNG BÁO KỸ THUẬT GOOGLE SHEETS / APPS SCRIPT ===== */
+(function(){
+  const hiddenTechnicalMessages=[
+    'Dữ liệu đồng bộ trực tiếp từ Google Sheets',
+    'Mật khẩu được kiểm tra tại Google Apps Script',
+    'Đang tải dữ liệu từ Google Sheets…',
+    'Đang tải dữ liệu từ Google Sheets...'
+  ];
+  function hideTechnicalMessages(){
+    document.querySelectorAll('body *').forEach(el=>{
+      if(el.children.length) return;
+      const s=(el.textContent||'').trim();
+      if(hiddenTechnicalMessages.includes(s)){
+        el.style.display='none';
+        el.setAttribute('aria-hidden','true');
+      }
+    });
+  }
+  const mo=new MutationObserver(hideTechnicalMessages);
+  mo.observe(document.documentElement,{childList:true,subtree:true,characterData:true});
+  document.addEventListener('DOMContentLoaded',hideTechnicalMessages);
+  setTimeout(hideTechnicalMessages,50);
 })();
 </script>
 
