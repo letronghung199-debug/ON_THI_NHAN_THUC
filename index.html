@@ -683,6 +683,69 @@ body:not(.home-mode) .guide-corner-btn{display:none!important}
 .guide-corner-btn{display:none!important}
 body.guide-home-visible .guide-corner-btn{display:flex!important}
 
+
+/* ===== V36: SỐ LIỆU KHÁC + TỐI ƯU MOBILE ===== */
+.other-stats-layer{display:none;position:fixed;inset:0;z-index:345000;background:#0f172ab8;backdrop-filter:blur(5px);align-items:center;justify-content:center;padding:18px}
+.other-stats-layer.show{display:flex}
+.other-stats-dialog{width:min(820px,96vw);max-height:90vh;overflow:auto;background:#fff;border-radius:18px;box-shadow:0 24px 80px #0006}
+.other-stats-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 18px;background:linear-gradient(125deg,#083b6d,#0b68b7);color:#fff;border-radius:18px 18px 0 0}
+.other-stats-head b{display:block;font-size:23px}.other-stats-head span{display:block;font-size:13px;opacity:.9;margin-top:2px}
+.other-stats-head button,.other-stats-foot button{border:0;border-radius:9px;padding:9px 13px;font-weight:800;cursor:pointer}
+.other-stats-head button{background:#fff;color:#0b4f9c}.other-stats-foot button{background:#0b5ea9;color:#fff}
+.other-stats-body{padding:18px}
+.other-stats-status{display:none;padding:10px 12px;margin-bottom:12px;border-radius:10px;background:#eff6ff;color:#1e3a5f;border:1px solid #bfdbfe;font-weight:700}
+.other-stats-status.show{display:block}.other-stats-status.err{background:#fef2f2;color:#991b1b;border-color:#fecaca}
+.other-stats-cards{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+.other-stat-card{border:1px solid #dbe5ef;border-radius:14px;padding:18px;text-align:center;background:#f8fbff}
+.other-stat-card span{display:block;font-size:13px;font-weight:900;color:#475569}.other-stat-card b{display:block;font-size:40px;line-height:1.15;margin:7px 0;color:#0b5ea9}.other-stat-card small{color:#64748b}
+.other-stat-card.anonymous{background:#fff8ed;border-color:#fed7aa}.other-stat-card.anonymous b{color:#c2410c}
+.other-stats-table{width:100%;border-collapse:collapse;border:1px solid #dbe5ef;border-radius:12px;overflow:hidden}
+.other-stats-table th,.other-stats-table td{padding:11px 12px;border-bottom:1px solid #e2e8f0;text-align:left}.other-stats-table th{background:#f1f5f9;color:#334155}.other-stats-table td:nth-child(2){font-weight:900;color:#0b5ea9}
+.other-stats-foot{display:flex;justify-content:flex-end;margin-top:14px}
+
+/* Mobile: hai bảng chọn ÔN THI / THI THỬ nằm chính giữa màn hình */
+@media(max-width:768px){
+  .study-select-overlay{align-items:center!important;justify-content:center!important;padding:12px!important}
+  .study-select-dialog{width:min(94vw,620px)!important;max-height:84dvh!important;border-radius:16px!important;margin:auto!important}
+  .study-select-head{border-radius:16px 16px 0 0!important}
+
+  /* Hộp nhập thông tin trước khi vào THI THỬ cũng nằm giữa màn hình */
+  .exam-login{align-items:center!important;justify-content:center!important;padding:12px!important}
+  .exam-login-box{width:min(94vw,520px)!important;max-width:520px!important;max-height:86dvh!important;border-radius:16px!important;padding:17px 14px!important;margin:auto!important}
+
+  /* ÔN THI: Hiện đáp án / Đáp án đúng / Thi thử cố định phía TRÊN */
+  body:not(.home-mode):not(.exam-mode) .modebar .actions-row{
+    position:fixed!important;
+    left:0!important;right:0!important;top:0!important;bottom:auto!important;
+    z-index:246000!important;
+    display:grid!important;grid-template-columns:1fr 1fr 1fr!important;
+    gap:7px!important;padding:7px 9px!important;margin:0!important;
+    background:rgba(255,255,255,.985)!important;border-top:0!important;border-bottom:1px solid #cbd5e1!important;
+    box-shadow:0 4px 16px #0f172a24!important;
+    padding-top:calc(7px + env(safe-area-inset-top))!important;
+  }
+  body:not(.home-mode):not(.exam-mode) .study-main{padding-top:62px!important;padding-bottom:26px!important}
+
+  /* THI THỬ: Danh sách câu / Thoát / Nộp bài luôn cố định phía trên khi cuộn */
+  body.exam-mode .exam-head{
+    position:fixed!important;left:0!important;right:0!important;top:0!important;
+    width:100%!important;margin:0!important;border-radius:0!important;z-index:246500!important;
+    padding-top:calc(8px + env(safe-area-inset-top))!important;
+  }
+  body.exam-mode .exam-layout{padding-top:150px!important}
+  body.exam-mode .exam-result{margin-top:150px!important}
+  body.exam-mode .exam-card{scroll-margin-top:170px!important}
+
+  .other-stats-layer{padding:10px}.other-stats-dialog{width:96vw;max-height:88dvh}.other-stats-body{padding:13px}
+  .other-stats-cards{grid-template-columns:1fr}.other-stat-card b{font-size:34px}
+  .other-stats-table{font-size:13px}.other-stats-table th,.other-stats-table td{padding:9px 8px}
+}
+@media(max-width:390px){
+  body.exam-mode .exam-layout{padding-top:185px!important}
+  body.exam-mode .exam-result{margin-top:185px!important}
+  body.exam-mode .exam-card{scroll-margin-top:205px!important}
+}
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/mammoth@1.8.0/mammoth.browser.min.js">
 loadExamUnits(false);
@@ -833,6 +896,41 @@ loadExamUnits(false);
     <div id="actionModuleList" class="study-module-list"></div>
   </div>
 </div>
+
+<div class="other-stats-layer" id="otherStatsLayer" aria-hidden="true">
+  <div class="other-stats-dialog" role="dialog" aria-modal="true" aria-labelledby="otherStatsTitle">
+    <div class="other-stats-head">
+      <div><b id="otherStatsTitle">SỐ LIỆU KHÁC</b><span>Thống kê hoạt động của hệ thống</span></div>
+      <button id="closeOtherStats" type="button">✕ Đóng</button>
+    </div>
+    <div class="other-stats-body">
+      <div class="other-stats-status" id="otherStatsStatus">Đang tải số liệu…</div>
+      <div class="other-stats-cards">
+        <div class="other-stat-card visit">
+          <span>SỐ LƯỢT TRUY CẬP TRONG TUẦN</span>
+          <b id="otherVisitWeek">0</b>
+          <small id="otherWeekRange">Tuần hiện tại</small>
+        </div>
+        <div class="other-stat-card anonymous">
+          <span>SỐ LƯỢT THI ẨN DANH</span>
+          <b id="otherAnonymousTotal">0</b>
+          <small>Tổng số lượt đã nộp bài ẩn danh</small>
+        </div>
+      </div>
+      <table class="other-stats-table">
+        <thead><tr><th>Nội dung thống kê</th><th>Số liệu</th><th>Ghi chú</th></tr></thead>
+        <tbody>
+          <tr><td>Lượt truy cập trong tuần</td><td id="otherVisitWeekTable">0</td><td id="otherWeekRangeTable">Tuần hiện tại</td></tr>
+          <tr><td>Lượt thi ẩn danh</td><td id="otherAnonymousTotalTable">0</td><td><span id="otherAnonymousWeek">0</span> lượt trong tuần hiện tại</td></tr>
+        </tbody>
+      </table>
+      <div class="other-stats-foot">
+        <button id="refreshOtherStats" type="button">↻ Làm mới số liệu</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="admin-overlay" id="adminOverlay" role="dialog" aria-modal="true" aria-labelledby="adminTitle">
   <div class="admin-panel">
     <div class="admin-top">
@@ -854,7 +952,7 @@ loadExamUnits(false);
     <div class="admin-content" id="adminContent">
       <div class="admin-toolbar-line">
         <div class="admin-stat-title-wrap"><b>THỐNG KÊ KẾT QUẢ THI: <select id="adminModuleTitleFilter" class="admin-title-module-select" aria-label="Chọn nội dung thi"></select></b><span id="adminUpdated">Chưa tải dữ liệu</span></div>
-        <div class="admin-toolbar-actions"><button id="adminRefresh" type="button">↻ Làm mới</button><button id="adminExport" type="button" class="secondary">⇩ Xuất CSV</button><button id="openAdminSettings" type="button" class="settings-btn">⚙ Cài đặt</button></div>
+        <div class="admin-toolbar-actions"><button id="adminRefresh" type="button">↻ Làm mới</button><button id="adminExport" type="button" class="secondary">⇩ Xuất CSV</button><button id="openOtherStats" type="button" class="secondary">▦ SỐ LIỆU KHÁC</button><button id="openAdminSettings" type="button" class="settings-btn">⚙ Cài đặt</button></div>
       </div>
       <div class="admin-summary admin-summary-6">
         <div class="admin-stat total"><span>Tổng lượt thi</span><b id="statTotal">0</b><small>lượt</small></div>
@@ -1331,6 +1429,9 @@ function submitExam(auto=false){
   const saveLine=candidate.anonymous?'Thi ẩn danh — kết quả chỉ hiển thị trên màn hình này và không được lưu.':'Đang lưu kết quả…';
   examResult.innerHTML=`<h2>KẾT QUẢ THI</h2>${auto?'<div class="auto-submit-note">Hết giờ - hệ thống đã tự động nộp bài.</div>':''}${candidateLine}<div><b>${correct}/${examBank.length} câu đúng (${percent}%)</b> • Xếp loại: <b>${grade.label}</b> • Đã trả lời ${answered}/${examBank.length} câu.</div>${resultAlert}<div class="save-status ${candidate.anonymous?'ok':''}" id="saveStatus">${saveLine}</div><div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap"><button class="actionbtn" type="button" onclick="closeExamResult()">Đóng thông báo</button><button class="actionbtn" type="button" onclick="reviewSubmittedExam()">Xem lại bài thi</button><button class="actionbtn" type="button" onclick="requestStartExam()">Làm lại bài thi</button><button class="actionbtn" type="button" onclick="returnHomeAfterExam()">Trang chủ</button></div>`;
   examResult.style.display='block';document.getElementById('submitExam').disabled=true;
+  if(candidate.anonymous){
+    try{recordSystemMetric('anonymous_exam',{moduleId:currentModuleId,moduleName:currentModule().name});}catch(e){}
+  }
   if(!candidate.anonymous){
     saveExamResult(resultPayload).then(r=>{
       const el=document.getElementById('saveStatus'); if(!el)return;
@@ -2023,7 +2124,7 @@ fillGuideEditor();
       action:'saveCentral',
       password:getCentralPassword(),
       config:{
-        version:35,
+        version:36,
         savedAt:new Date().toISOString(),
         syncToken:'sync-'+Date.now()+'-'+Math.random().toString(36).slice(2),
         quizModules:cloneJSON(quizModules||[]),
@@ -2251,6 +2352,89 @@ fillGuideEditor();
   mo.observe(document.documentElement,{childList:true,subtree:true,characterData:true});
   document.addEventListener('DOMContentLoaded',hideTechnicalMessages);
   setTimeout(hideTechnicalMessages,50);
+})();
+</script>
+
+
+<script>
+/* ===== V36: THEO DÕI LƯỢT TRUY CẬP & THI ẨN DANH ===== */
+(function(){
+  window.recordSystemMetric=function(type,extra){
+    if(!window.RESULT_ENDPOINT && typeof RESULT_ENDPOINT==='undefined') return;
+    const endpoint=(typeof RESULT_ENDPOINT!=='undefined'?RESULT_ENDPOINT:window.RESULT_ENDPOINT);
+    if(!endpoint)return;
+    const payload=Object.assign({
+      action:'metric',
+      metricType:String(type||''),
+      timestamp:new Date().toISOString()
+    },extra||{});
+    try{
+      fetch(endpoint,{method:'POST',mode:'no-cors',keepalive:true,headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)}).catch(()=>{});
+    }catch(e){}
+  };
+
+  // Tính một lượt truy cập cho mỗi phiên/tab, tránh tăng số chỉ vì code render lại giao diện.
+  try{
+    if(!sessionStorage.getItem('exam_app_visit_counted')){
+      sessionStorage.setItem('exam_app_visit_counted','1');
+      setTimeout(()=>window.recordSystemMetric('visit'),250);
+    }
+  }catch(e){
+    setTimeout(()=>window.recordSystemMetric('visit'),250);
+  }
+
+  const layer=document.getElementById('otherStatsLayer');
+  const status=document.getElementById('otherStatsStatus');
+  function setStatus(msg,err){
+    if(!status)return;
+    status.textContent=msg||'';
+    status.classList.toggle('show',!!msg);
+    status.classList.toggle('err',!!err);
+  }
+  function jsonp(url,timeout=10000){
+    return new Promise((resolve,reject)=>{
+      const cb='otherStatsCb_'+Date.now()+'_'+Math.random().toString(36).slice(2);
+      const script=document.createElement('script');let done=false;
+      const cleanup=()=>{try{delete window[cb]}catch(e){};script.remove()};
+      const timer=setTimeout(()=>{if(done)return;done=true;cleanup();reject(new Error('Hết thời gian chờ dữ liệu'));},timeout);
+      window[cb]=data=>{if(done)return;done=true;clearTimeout(timer);cleanup();resolve(data)};
+      script.onerror=()=>{if(done)return;done=true;clearTimeout(timer);cleanup();reject(new Error('Không kết nối được máy chủ dữ liệu'));};
+      script.src=url+(url.includes('?')?'&':'?')+'callback='+encodeURIComponent(cb)+'&_='+Date.now();
+      document.head.appendChild(script);
+    });
+  }
+  function render(data){
+    const v=Number(data.visitsWeek||0), a=Number(data.anonymousTotal||0), aw=Number(data.anonymousWeek||0);
+    const range=data.weekLabel||'Tuần hiện tại';
+    ['otherVisitWeek','otherVisitWeekTable'].forEach(id=>{const e=document.getElementById(id);if(e)e.textContent=v.toLocaleString('vi-VN')});
+    ['otherAnonymousTotal','otherAnonymousTotalTable'].forEach(id=>{const e=document.getElementById(id);if(e)e.textContent=a.toLocaleString('vi-VN')});
+    const eaw=document.getElementById('otherAnonymousWeek');if(eaw)eaw.textContent=aw.toLocaleString('vi-VN');
+    ['otherWeekRange','otherWeekRangeTable'].forEach(id=>{const e=document.getElementById(id);if(e)e.textContent=range});
+  }
+  window.loadOtherStats=async function(){
+    if(typeof RESULT_ENDPOINT==='undefined'||!RESULT_ENDPOINT){setStatus('Chưa cấu hình máy chủ dữ liệu.',true);return}
+    const pass=(typeof adminPasswordSession!=='undefined'?adminPasswordSession:'')||'';
+    if(!pass){setStatus('Cần đăng nhập Admin trước khi xem số liệu.',true);return}
+    setStatus('Đang tải số liệu…',false);
+    try{
+      const data=await jsonp(RESULT_ENDPOINT+'?action=metrics&password='+encodeURIComponent(pass));
+      if(!data||!data.ok){setStatus(data&&data.message?data.message:'Không lấy được số liệu.',true);return}
+      render(data);setStatus('',false);
+    }catch(e){setStatus(e.message||'Không lấy được số liệu.',true)}
+  };
+  function open(){
+    if(!layer)return;
+    layer.classList.add('show');layer.setAttribute('aria-hidden','false');
+    window.loadOtherStats();
+  }
+  function close(){
+    if(!layer)return;
+    layer.classList.remove('show');layer.setAttribute('aria-hidden','true');
+  }
+  document.getElementById('openOtherStats')?.addEventListener('click',open);
+  document.getElementById('closeOtherStats')?.addEventListener('click',close);
+  document.getElementById('refreshOtherStats')?.addEventListener('click',()=>window.loadOtherStats());
+  layer?.addEventListener('click',e=>{if(e.target===layer)close()});
 })();
 </script>
 
