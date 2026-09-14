@@ -746,6 +746,205 @@ body.guide-home-visible .guide-corner-btn{display:flex!important}
   body.exam-mode .exam-card{scroll-margin-top:205px!important}
 }
 
+
+/* ===== V37: ĐIỀU CHỈNH MOBILE ===== */
+@media(max-width:768px){
+  .guide-corner-btn{top:calc(10mm + env(safe-area-inset-top))!important;}
+  .training-marquee-wrap{overflow:hidden!important;white-space:nowrap!important;width:100%!important;}
+  .training-marquee-text{display:inline-block!important;white-space:nowrap!important;padding-left:100%!important;animation:trainingMarqueeV37 11s linear infinite!important;will-change:transform;}
+}
+@keyframes trainingMarqueeV37{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
+
+
+/* ===== V38: ÔN LUYỆN TẠI CHỨC CHẠY TRÊN CẢ PC VÀ ĐIỆN THOẠI ===== */
+.training-marquee-wrap{
+  overflow:hidden!important;
+  white-space:nowrap!important;
+  width:100%!important;
+}
+.training-marquee-text{
+  display:inline-block!important;
+  white-space:nowrap!important;
+  padding-left:100%!important;
+  animation:trainingMarqueeV38 11s linear infinite!important;
+  will-change:transform;
+}
+@keyframes trainingMarqueeV38{
+  0%{transform:translateX(0)}
+  100%{transform:translateX(-100%)}
+}
+
+
+/* ===== V39: DASHBOARD ADMIN - SỐ LIỆU KHÁC ===== */
+.dashboard-period-title{font-size:13px;font-weight:900;color:#334155;margin:4px 0 9px;letter-spacing:.25px}
+.dashboard-kpi-grid{display:grid;gap:10px;margin-bottom:16px}
+.dashboard-kpi-grid.access-grid{grid-template-columns:repeat(3,1fr)}
+.dashboard-kpi-grid.exam-grid{grid-template-columns:repeat(3,1fr)}
+.dashboard-kpi{background:linear-gradient(180deg,#fff,#f8fbff);border:1px solid #dce7f1;border-radius:14px;padding:14px 12px;text-align:center;box-shadow:0 3px 12px #0f172a0c}
+.dashboard-kpi span{display:block;font-size:11.5px;font-weight:900;color:#526274;line-height:1.25;min-height:29px}
+.dashboard-kpi b{display:block;font-size:31px;line-height:1.15;margin:5px 0;color:#0b5ea9}
+.dashboard-kpi small{display:block;color:#7b8794;font-size:11px}
+.dashboard-highlight{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:15px 17px;margin:2px 0 16px;border-radius:14px;background:linear-gradient(125deg,#0b4f8a,#1476c4);color:white;box-shadow:0 8px 22px #0b5ea929}
+.dashboard-highlight span{display:block;font-size:11px;font-weight:800;opacity:.88;margin-bottom:4px}
+.dashboard-highlight b{font-size:19px;line-height:1.25}
+.dashboard-highlight strong{white-space:nowrap;font-size:16px;background:#ffffff20;border:1px solid #ffffff40;border-radius:10px;padding:8px 11px}
+.dashboard-chart-controls{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:5px 0 9px}
+.dashboard-chart-controls b{font-size:13px;color:#334155}.dashboard-chart-controls small{display:block;color:#64748b;margin-top:2px}
+.dashboard-range-switch{display:flex;gap:5px;background:#eef3f8;padding:4px;border-radius:10px}
+.dashboard-range-switch button{border:0;background:transparent;color:#526274;border-radius:7px;padding:7px 10px;font-weight:900;font-size:11px;cursor:pointer}
+.dashboard-range-switch button.active{background:#0b5ea9;color:#fff;box-shadow:0 2px 7px #0b5ea92c}
+.dashboard-chart-box{position:relative;width:100%;height:280px;border:1px solid #dce7f1;border-radius:14px;background:#fff;padding:12px 12px 34px;box-sizing:border-box}
+#adminActivityChart{display:block;width:100%!important;height:100%!important}
+.dashboard-chart-legend{position:absolute;bottom:9px;left:0;right:0;display:flex;justify-content:center;gap:22px;font-size:11px;font-weight:800;color:#526274}
+.dashboard-chart-legend i{width:9px;height:9px;border-radius:50%;display:inline-block;margin-right:5px}.visit-dot{background:#0b5ea9}.exam-dot{background:#df7a22}
+
+@media(max-width:768px){
+  .dashboard-kpi-grid.access-grid{grid-template-columns:1fr 1fr 1fr}
+  .dashboard-kpi-grid.exam-grid{grid-template-columns:1fr 1fr}
+  .dashboard-kpi{padding:11px 7px}.dashboard-kpi span{font-size:10px;min-height:25px}.dashboard-kpi b{font-size:26px}.dashboard-kpi small{font-size:9.5px}
+  .dashboard-highlight{padding:12px}.dashboard-highlight b{font-size:15px}.dashboard-highlight strong{font-size:13px;padding:7px}
+  .dashboard-chart-box{height:245px;padding-left:7px;padding-right:7px}
+  .dashboard-chart-controls{align-items:flex-end}.dashboard-range-switch button{padding:6px 8px}
+}
+@media(max-width:420px){
+  .dashboard-kpi-grid.access-grid{grid-template-columns:1fr}
+  .dashboard-kpi-grid.exam-grid{grid-template-columns:1fr 1fr}
+}
+
+
+/* ===== V42: FIX POPUP KẾT QUẢ THI TRÊN MOBILE ===== */
+@media(max-width:768px){
+  /* Popup phải nằm trên thanh điều khiển thi và không bị đẩy xuống bởi margin của exam-mode */
+  body.exam-mode .exam-result.result-popup{
+    position:fixed!important;
+    z-index:300500!important;
+    left:50%!important;
+    right:auto!important;
+    top:50%!important;
+    bottom:auto!important;
+    transform:translate(-50%,-50%)!important;
+    width:calc(100vw - 20px)!important;
+    max-width:560px!important;
+    max-height:calc(100dvh - 20px - env(safe-area-inset-top) - env(safe-area-inset-bottom))!important;
+    margin:0!important;
+    overflow-y:auto!important;
+    overflow-x:hidden!important;
+    box-sizing:border-box!important;
+    padding:16px 13px calc(18px + env(safe-area-inset-bottom))!important;
+    -webkit-overflow-scrolling:touch!important;
+    overscroll-behavior:contain!important;
+  }
+
+  /* Không để quy tắc margin-top của vùng thi tác động lên popup kết quả */
+  body.exam-mode .exam-result.result-popup{
+    margin-top:0!important;
+  }
+
+  /* Các nút kết quả dễ bấm và không bị hụt ở cuối màn hình */
+  body.exam-mode .exam-result.result-popup .actionbtn{
+    min-height:42px!important;
+    flex:1 1 44%!important;
+    white-space:normal!important;
+  }
+}
+@media(max-width:390px){
+  body.exam-mode .exam-result.result-popup{
+    margin-top:0!important;
+    max-height:calc(100dvh - 16px - env(safe-area-inset-top) - env(safe-area-inset-bottom))!important;
+    width:calc(100vw - 16px)!important;
+  }
+}
+
+
+/* ===== V43: THU GỌN KHU VỰC ĐIỀU KHIỂN THI TRÊN MOBILE ===== */
+@media(max-width:768px){
+  /* Khối đầu bài thi: gọn hơn, không chiếm gần 1/3 màn hình */
+  body.exam-mode .exam-head{
+    padding:7px 10px!important;
+    gap:4px!important;
+  }
+
+  /* Thời gian nằm trên một hàng thấp */
+  body.exam-mode .exam-timer-row{
+    min-height:30px!important;
+    margin:0!important;
+    padding:0!important;
+    line-height:1.15!important;
+  }
+  body.exam-mode .exam-timer-row,
+  body.exam-mode #timer{
+    font-size:18px!important;
+  }
+
+  /* Thông tin môn / thí sinh / đơn vị thu gọn */
+  body.exam-mode #examCandidate{
+    font-size:12px!important;
+    line-height:1.25!important;
+    margin:2px 0!important;
+    padding:0!important;
+  }
+
+  /* Đã chọn */
+  body.exam-mode .exam-progress,
+  body.exam-mode #answeredCount{
+    font-size:12px!important;
+    line-height:1.2!important;
+  }
+
+  /* Thanh điều khiển chuyển thành một hàng duy nhất */
+  body.exam-mode .exam-mobile-actions{
+    display:grid!important;
+    grid-template-columns:1.55fr .8fr .9fr!important;
+    gap:6px!important;
+    padding:6px 8px calc(6px + env(safe-area-inset-bottom))!important;
+  }
+  body.exam-mode .exam-mobile-actions #mobileNavigatorToggle,
+  body.exam-mode .exam-mobile-actions button{
+    width:100%!important;
+    min-width:0!important;
+    min-height:38px!important;
+    height:38px!important;
+    margin:0!important;
+    padding:5px 6px!important;
+    border-radius:9px!important;
+    font-size:12px!important;
+    line-height:1.05!important;
+    white-space:nowrap!important;
+  }
+
+  /* Nếu các nút đang dùng container khác, vẫn ép về bố cục 1 hàng */
+  body.exam-mode .exam-toolbar-mobile{
+    display:grid!important;
+    grid-template-columns:1.55fr .8fr .9fr!important;
+    gap:6px!important;
+    padding:6px 8px!important;
+  }
+  body.exam-mode .exam-toolbar-mobile button{
+    min-height:38px!important;
+    height:38px!important;
+    padding:5px!important;
+    font-size:12px!important;
+    margin:0!important;
+  }
+
+  /* Giảm khoảng trắng trước câu hỏi đầu tiên */
+  body.exam-mode #examQuestions{
+    padding-top:4px!important;
+    margin-top:0!important;
+  }
+}
+
+@media(max-width:390px){
+  body.exam-mode #examCandidate{font-size:11px!important}
+  body.exam-mode .exam-mobile-actions #mobileNavigatorToggle,
+  body.exam-mode .exam-mobile-actions button,
+  body.exam-mode .exam-toolbar-mobile button{
+    font-size:11px!important;
+    padding-left:3px!important;
+    padding-right:3px!important;
+  }
+}
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/mammoth@1.8.0/mammoth.browser.min.js">
 loadExamUnits(false);
@@ -905,30 +1104,53 @@ loadExamUnits(false);
     </div>
     <div class="other-stats-body">
       <div class="other-stats-status" id="otherStatsStatus">Đang tải số liệu…</div>
-      <div class="other-stats-cards">
-        <div class="other-stat-card visit">
-          <span>SỐ LƯỢT TRUY CẬP TRONG TUẦN</span>
-          <b id="otherVisitWeek">0</b>
-          <small id="otherWeekRange">Tuần hiện tại</small>
+
+      <div class="dashboard-period-title">TỔNG QUAN TRUY CẬP</div>
+      <div class="dashboard-kpi-grid access-grid">
+        <div class="dashboard-kpi"><span>LƯỢT TRUY CẬP HÔM NAY</span><b id="dashVisitsToday">0</b><small id="dashTodayLabel">Hôm nay</small></div>
+        <div class="dashboard-kpi"><span>LƯỢT TRUY CẬP TRONG TUẦN</span><b id="dashVisitsWeek">0</b><small id="dashWeekLabel">Tuần hiện tại</small></div>
+        <div class="dashboard-kpi"><span>LƯỢT TRUY CẬP TRONG THÁNG</span><b id="dashVisitsMonth">0</b><small id="dashMonthLabel">Tháng hiện tại</small></div>
+      </div>
+
+      <div class="dashboard-period-title">TỔNG QUAN THI</div>
+      <div class="dashboard-kpi-grid exam-grid">
+        <div class="dashboard-kpi"><span>TỔNG LƯỢT THI</span><b id="dashExamTotal">0</b><small>Có danh tính + ẩn danh</small></div>
+        <div class="dashboard-kpi"><span>THI CÓ DANH TÍNH</span><b id="dashNamedExams">0</b><small>Kết quả được lưu</small></div>
+        <div class="dashboard-kpi"><span>THI ẨN DANH</span><b id="dashAnonymousExams">0</b><small>Không lưu danh tính</small></div>
+        <div class="dashboard-kpi"><span>SỐ NGƯỜI THI</span><b id="dashCandidates">0</b><small>Người thi duy nhất</small></div>
+        <div class="dashboard-kpi"><span>ĐIỂM TRUNG BÌNH</span><b id="dashAvgScore">0</b><small>Thang điểm 100</small></div>
+        <div class="dashboard-kpi"><span>TỶ LỆ ĐẠT</span><b id="dashPassRate">0%</b><small>Theo tiêu chí hiện hành</small></div>
+      </div>
+
+      <div class="dashboard-highlight">
+        <div><span>MÔN ĐƯỢC THI NHIỀU NHẤT</span><b id="dashTopModule">—</b></div>
+        <strong id="dashTopModuleCount">0 lượt</strong>
+      </div>
+
+      <div class="dashboard-chart-controls">
+        <div>
+          <b>BIỂU ĐỒ HOẠT ĐỘNG</b>
+          <small id="dashChartCaption">7 ngày gần nhất</small>
         </div>
-        <div class="other-stat-card anonymous">
-          <span>SỐ LƯỢT THI ẨN DANH</span>
-          <b id="otherAnonymousTotal">0</b>
-          <small>Tổng số lượt đã nộp bài ẩn danh</small>
+        <div class="dashboard-range-switch">
+          <button type="button" class="active" data-days="7">7 NGÀY</button>
+          <button type="button" data-days="30">30 NGÀY</button>
         </div>
       </div>
-      <table class="other-stats-table">
-        <thead><tr><th>Nội dung thống kê</th><th>Số liệu</th><th>Ghi chú</th></tr></thead>
-        <tbody>
-          <tr><td>Lượt truy cập trong tuần</td><td id="otherVisitWeekTable">0</td><td id="otherWeekRangeTable">Tuần hiện tại</td></tr>
-          <tr><td>Lượt thi ẩn danh</td><td id="otherAnonymousTotalTable">0</td><td><span id="otherAnonymousWeek">0</span> lượt trong tuần hiện tại</td></tr>
-        </tbody>
-      </table>
+      <div class="dashboard-chart-box">
+        <canvas id="adminActivityChart" aria-label="Biểu đồ lượt truy cập và lượt thi"></canvas>
+        <div class="dashboard-chart-legend">
+          <span><i class="visit-dot"></i>Lượt truy cập</span>
+          <span><i class="exam-dot"></i>Lượt thi</span>
+        </div>
+      </div>
+
       <div class="other-stats-foot">
         <button id="refreshOtherStats" type="button">↻ Làm mới số liệu</button>
       </div>
     </div>
   </div>
+</div>
 </div>
 
 <div class="admin-overlay" id="adminOverlay" role="dialog" aria-modal="true" aria-labelledby="adminTitle">
@@ -988,12 +1210,12 @@ loadExamUnits(false);
         </section>
         <section class="admin-config-card">
           <h3>2. THAY ĐỔI MẬT KHẨU</h3>
-          <p>Đổi mật khẩu truy cập mục ADMIN trên thiết bị này.</p>
+          <p>Đổi mật khẩu ADMIN dùng chung cho toàn bộ thiết bị. Mật khẩu được lưu và kiểm tra trực tiếp trên Google Sheets.</p>
           <input id="newAdminPassword" type="password" placeholder="Mật khẩu mới (tối thiểu 6 ký tự)">
           <input id="confirmAdminPassword" type="password" placeholder="Nhập lại mật khẩu mới">
           <button id="changeAdminPassword" type="button">Đổi mật khẩu</button>
           <div class="config-status" id="passwordConfigStatus"></div>
-          <div class="config-note">Mật khẩu Google Apps Script vẫn dùng để đọc dữ liệu Sheet; mật khẩu giao diện mới được lưu cục bộ trên trình duyệt.</div>
+          <div class="config-note">Sau khi đổi, mật khẩu mới có hiệu lực ngay trên mọi thiết bị, không cần sửa mã Apps Script và không cần triển khai lại Web App.</div>
         </section>
         <section class="admin-config-card">
           <h3>3. TÊN HỆ THỐNG, PHIÊN HIỆU & HÌNH NỀN</h3>
@@ -1427,7 +1649,9 @@ function submitExam(auto=false){
   examResult.className='exam-result result-popup'+(failed?' fail':' pass');
   const candidateLine=candidate.anonymous?'<div><b>🔒 THI ẨN DANH</b> • Kết quả không được lưu</div>':`<div><b>${candidate.name}</b> • ${candidate.unit}</div>`;
   const saveLine=candidate.anonymous?'Thi ẩn danh — kết quả chỉ hiển thị trên màn hình này và không được lưu.':'Đang lưu kết quả…';
-  examResult.innerHTML=`<h2>KẾT QUẢ THI</h2>${auto?'<div class="auto-submit-note">Hết giờ - hệ thống đã tự động nộp bài.</div>':''}${candidateLine}<div><b>${correct}/${examBank.length} câu đúng (${percent}%)</b> • Xếp loại: <b>${grade.label}</b> • Đã trả lời ${answered}/${examBank.length} câu.</div>${resultAlert}<div class="save-status ${candidate.anonymous?'ok':''}" id="saveStatus">${saveLine}</div><div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap"><button class="actionbtn" type="button" onclick="closeExamResult()">Đóng thông báo</button><button class="actionbtn" type="button" onclick="reviewSubmittedExam()">Xem lại bài thi</button><button class="actionbtn" type="button" onclick="requestStartExam()">Làm lại bài thi</button><button class="actionbtn" type="button" onclick="returnHomeAfterExam()">Trang chủ</button></div>`;
+  const wrongCount=examBank.length-correct;
+  const wrongRetryButton=wrongCount>0?`<button class="actionbtn" type="button" onclick="retryWrongQuestions()">Thi lại các câu sai</button>`:'';
+  examResult.innerHTML=`<h2>KẾT QUẢ THI</h2>${auto?'<div class="auto-submit-note">Hết giờ - hệ thống đã tự động nộp bài.</div>':''}${candidateLine}<div><b>${correct}/${examBank.length} câu đúng (${percent}%)</b> • Xếp loại: <b>${grade.label}</b> • Đã trả lời ${answered}/${examBank.length} câu.</div>${resultAlert}<div class="save-status ${candidate.anonymous?'ok':''}" id="saveStatus">${saveLine}</div><div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap"><button class="actionbtn" type="button" onclick="reviewSubmittedExam()">Xem lại bài thi</button><button class="actionbtn" type="button" onclick="requestStartExam()">Thi lại</button>${wrongRetryButton}<button class="actionbtn" type="button" onclick="returnHomeAfterExam()">Trang chủ</button></div>`;
   examResult.style.display='block';document.getElementById('submitExam').disabled=true;
   if(candidate.anonymous){
     try{recordSystemMetric('anonymous_exam',{moduleId:currentModuleId,moduleName:currentModule().name});}catch(e){}
@@ -1441,6 +1665,61 @@ function submitExam(auto=false){
     });
   }
 }
+
+function retryWrongQuestions(){
+  if(!examSubmitted||!examBank.length)return;
+  const wrongQuestions=[];
+  examQuestions.querySelectorAll('.exam-card').forEach((card,i)=>{
+    if(card.classList.contains('review-wrong')&&examBank[i])wrongQuestions.push(examBank[i]);
+  });
+  if(!wrongQuestions.length){
+    alert('Bài thi này không có câu sai.');
+    return;
+  }
+
+  closeExamResult();
+  document.getElementById('examNavigator')?.classList.remove('mobile-open');
+  document.body.classList.remove('exam-review-mode');
+
+  const examLetters=['A','B','C','D','E'];
+  examBank=wrongQuestions.map(item=>({
+    ...item,
+    options:shuffleArray(item.options).map((opt,index)=>({
+      ...opt,
+      label:examLetters[index] || String.fromCharCode(65+index)
+    }))
+  }));
+
+  examCandidate.textContent=candidate.anonymous
+    ?`${currentModule().name} • THI LẠI CÁC CÂU SAI • THI ẨN DANH`
+    :`${currentModule().name} • THI LẠI CÁC CÂU SAI • ${candidate.name} • ${candidate.unit}`;
+
+  renderExam();
+  examResult.style.display='none';
+  examResult.className='exam-result';
+  examResult.innerHTML='';
+  answeredCount.textContent='0';
+
+  examActive=true;
+  examSubmitted=false;
+
+  // Thời gian được tính theo tỷ lệ số câu sai so với cấu hình bài thi gốc, tối thiểu 1 phút.
+  const retryMinutes=Math.max(1,Math.ceil(moduleExamMinutes()*examBank.length/Math.max(1,moduleExamSize())));
+  endTime=Date.now()+retryMinutes*60*1000;
+  timer.style.color='';
+  document.getElementById('submitExam').disabled=false;
+
+  document.body.classList.remove('reveal-answers','only-correct','home-mode');
+  document.body.classList.add('exam-mode');
+  document.body.style.overflow='';
+  document.documentElement.style.overflow='';
+
+  clearInterval(timerHandle);
+  updateTimer();
+  timerHandle=setInterval(updateTimer,1000);
+  window.scrollTo(0,0);
+}
+
 function reviewSubmittedExam(){
   closeExamResult();
   document.body.classList.add('exam-review-mode');
@@ -1562,12 +1841,16 @@ async function loadAdminData(password){
       showAdminStatus(data&&data.message?data.message:'Không lấy được dữ liệu.',true);return;
     }
     adminPasswordSession=password;
+    savedServerPassword=password;
+    storeSet('serverAdminPassword',password);
+    localAdminPassword='';
+    storeRemove('localAdminPassword');
     adminRows=Array.isArray(data.rows)?data.rows:[];
     adminLoginBox.style.display='none';adminContent.classList.add('show');hideAdminStatus();
     buildAdminUnitFilter();renderAdminRows();
   }catch(err){showAdminStatus(err.message||'Không lấy được dữ liệu.',true);}
 }
-function adminLogin(){const p=adminPassword.value.trim();if(!p){alert('Vui lòng nhập mật khẩu quản trị.');adminPassword.focus();return;}if(localAdminPassword){if(p!==localAdminPassword){showAdminStatus('Mật khẩu giao diện không đúng.',true);return;}if(!savedServerPassword){showAdminStatus('Thiết bị chưa lưu mật khẩu máy chủ. Hãy khôi phục mật khẩu giao diện hoặc đăng nhập một lần bằng mật khẩu Apps Script.',true);return;}loadAdminData(savedServerPassword);return;}loadAdminData(p);}
+function adminLogin(){const p=adminPassword.value.trim();if(!p){alert('Vui lòng nhập mật khẩu quản trị.');adminPassword.focus();return;}loadAdminData(p);}
 function buildAdminUnitFilter(){
   const current=adminUnitFilter.value;
   const units=[...new Set(adminRows.map(r=>String(r.donVi||'').trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'vi'));
@@ -1785,7 +2068,30 @@ document.getElementById('exportQuestionBank').addEventListener('click',()=>{cons
 updateQuestionStatus();
 
 const pwdStatus=document.getElementById('passwordConfigStatus');
-document.getElementById('changeAdminPassword').addEventListener('click',()=>{const a=document.getElementById('newAdminPassword').value,b=document.getElementById('confirmAdminPassword').value;if(a.length<6){pwdStatus.textContent='Mật khẩu phải có ít nhất 6 ký tự.';return;}if(a!==b){pwdStatus.textContent='Hai lần nhập mật khẩu chưa khớp.';return;}localAdminPassword=a;storeSet('localAdminPassword',a);pwdStatus.textContent='Đã đổi mật khẩu giao diện ADMIN trên thiết bị này.';document.getElementById('newAdminPassword').value='';document.getElementById('confirmAdminPassword').value='';});
+document.getElementById('changeAdminPassword').addEventListener('click',async()=>{
+  const a=document.getElementById('newAdminPassword').value;
+  const b=document.getElementById('confirmAdminPassword').value;
+  if(a.length<6){pwdStatus.textContent='Mật khẩu phải có ít nhất 6 ký tự.';return;}
+  if(a!==b){pwdStatus.textContent='Hai lần nhập mật khẩu chưa khớp.';return;}
+  const current=String(adminPasswordSession||savedServerPassword||'').trim();
+  if(!current){pwdStatus.textContent='Không xác định được mật khẩu hiện tại. Hãy đăng nhập lại ADMIN rồi thử lại.';return;}
+  pwdStatus.textContent='Đang cập nhật mật khẩu trên Google Sheets…';
+  try{
+    const data=await adminJsonp(RESULT_ENDPOINT+'?action=changePassword&password='+encodeURIComponent(current)+'&newPassword='+encodeURIComponent(a)+'&_='+Date.now());
+    if(!data||!data.ok)throw new Error((data&&data.message)||'Không đổi được mật khẩu.');
+    adminPasswordSession=a;
+    savedServerPassword=a;
+    storeSet('serverAdminPassword',a);
+    localAdminPassword='';
+    storeRemove('localAdminPassword');
+    if(adminPassword)adminPassword.value='';
+    document.getElementById('newAdminPassword').value='';
+    document.getElementById('confirmAdminPassword').value='';
+    pwdStatus.textContent='Đã đổi mật khẩu ADMIN trên Google Sheets. Mật khẩu mới có hiệu lực trên tất cả thiết bị.';
+  }catch(e){
+    pwdStatus.textContent='Không đổi được mật khẩu: '+(e.message||e);
+  }
+});
 
 const defaultBrand1='TỔNG CỤC HẬU CẦN - KỸ THUẬT',defaultBrand2='TRƯỜNG CAO ĐẲNG HẬU CẦN 1',defaultSystemTitle='ÔN LUYỆN NHẬN THỨC CHÍNH TRỊ';
 function applyBranding(){const b1=storeGet('brand1')||defaultBrand1,b2=storeGet('brand2')||defaultBrand2,bg=storeGet('homeBg'),st=storeGet('systemTitle')||defaultSystemTitle;document.getElementById('brandLine1').textContent=b1;document.getElementById('brandLine2').textContent=b2;document.getElementById('systemMainTitle').textContent=st;document.getElementById('systemTitleInput').value=st;document.getElementById('brand1Input').value=b1;document.getElementById('brand2Input').value=b2;if(bg)document.querySelector('.home-bg').style.backgroundImage=`url("${bg}")`;}
@@ -2124,7 +2430,7 @@ fillGuideEditor();
       action:'saveCentral',
       password:getCentralPassword(),
       config:{
-        version:36,
+        version:43,
         savedAt:new Date().toISOString(),
         syncToken:'sync-'+Date.now()+'-'+Math.random().toString(36).slice(2),
         quizModules:cloneJSON(quizModules||[]),
@@ -2435,6 +2741,128 @@ fillGuideEditor();
   document.getElementById('closeOtherStats')?.addEventListener('click',close);
   document.getElementById('refreshOtherStats')?.addEventListener('click',()=>window.loadOtherStats());
   layer?.addEventListener('click',e=>{if(e.target===layer)close()});
+})();
+</script>
+
+
+<script>
+/* ===== V39: DASHBOARD ADMIN NÂNG CAO ===== */
+(function(){
+  let dashboardData=null;
+  let dashboardDays=7;
+
+  function el(id){return document.getElementById(id)}
+  function setText(id,v){const e=el(id); if(e)e.textContent=v}
+  function n(v){return Number(v||0)}
+  function fmt(v){return n(v).toLocaleString('vi-VN')}
+
+  function setStatusV39(msg,err){
+    const s=el('otherStatsStatus'); if(!s)return;
+    s.textContent=msg||'';
+    s.classList.toggle('show',!!msg);
+    s.classList.toggle('err',!!err);
+  }
+
+  function jsonpV39(url,timeout=12000){
+    return new Promise((resolve,reject)=>{
+      const cb='dashV39_'+Date.now()+'_'+Math.random().toString(36).slice(2);
+      const sc=document.createElement('script'); let done=false;
+      const clean=()=>{try{delete window[cb]}catch(e){};sc.remove()};
+      const timer=setTimeout(()=>{if(done)return;done=true;clean();reject(new Error('Hết thời gian chờ dữ liệu'));},timeout);
+      window[cb]=d=>{if(done)return;done=true;clearTimeout(timer);clean();resolve(d)};
+      sc.onerror=()=>{if(done)return;done=true;clearTimeout(timer);clean();reject(new Error('Không kết nối được máy chủ dữ liệu'));};
+      sc.src=url+(url.includes('?')?'&':'?')+'callback='+encodeURIComponent(cb)+'&_='+Date.now();
+      document.head.appendChild(sc);
+    });
+  }
+
+  function renderKPIs(d){
+    setText('dashVisitsToday',fmt(d.visitsToday));
+    setText('dashVisitsWeek',fmt(d.visitsWeek));
+    setText('dashVisitsMonth',fmt(d.visitsMonth));
+    setText('dashExamTotal',fmt(d.examTotal));
+    setText('dashNamedExams',fmt(d.namedExams));
+    setText('dashAnonymousExams',fmt(d.anonymousExams));
+    setText('dashCandidates',fmt(d.uniqueCandidates));
+    setText('dashAvgScore',(n(d.avgScore)).toLocaleString('vi-VN',{minimumFractionDigits:1,maximumFractionDigits:1}));
+    setText('dashPassRate',(n(d.passRate)).toLocaleString('vi-VN',{minimumFractionDigits:1,maximumFractionDigits:1})+'%');
+    setText('dashTopModule',d.topModule||'Chưa có dữ liệu');
+    setText('dashTopModuleCount',fmt(d.topModuleCount)+' lượt');
+    setText('dashTodayLabel',d.todayLabel||'Hôm nay');
+    setText('dashWeekLabel',d.weekLabel||'Tuần hiện tại');
+    setText('dashMonthLabel',d.monthLabel||'Tháng hiện tại');
+  }
+
+  function drawChart(days){
+    const c=el('adminActivityChart'); if(!c||!dashboardData)return;
+    const series=(dashboardData.daily||[]).slice(-days);
+    const rect=c.getBoundingClientRect();
+    const dpr=Math.max(1,window.devicePixelRatio||1);
+    c.width=Math.max(300,Math.floor(rect.width*dpr));
+    c.height=Math.max(180,Math.floor(rect.height*dpr));
+    const ctx=c.getContext('2d'); ctx.setTransform(dpr,0,0,dpr,0,0);
+    const W=rect.width,H=rect.height;
+    ctx.clearRect(0,0,W,H);
+    const pad={l:38,r:15,t:12,b:34};
+    const w=W-pad.l-pad.r,h=H-pad.t-pad.b;
+    const max=Math.max(1,...series.flatMap(x=>[n(x.visits),n(x.exams)]));
+    const grid=4;
+    ctx.font='10px Arial';ctx.textAlign='right';ctx.textBaseline='middle';
+    for(let i=0;i<=grid;i++){
+      const y=pad.t+h*i/grid;
+      ctx.strokeStyle='#e7edf3';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(W-pad.r,y);ctx.stroke();
+      const val=Math.round(max*(grid-i)/grid);
+      ctx.fillStyle='#7b8794';ctx.fillText(String(val),pad.l-6,y);
+    }
+    if(!series.length){ctx.fillStyle='#64748b';ctx.textAlign='center';ctx.fillText('Chưa có dữ liệu',W/2,H/2);return}
+    const xFor=i=>series.length===1?pad.l+w/2:pad.l+w*i/(series.length-1);
+    const yFor=v=>pad.t+h-(n(v)/max)*h;
+    function line(key,color){
+      ctx.strokeStyle=color;ctx.lineWidth=2.2;ctx.beginPath();
+      series.forEach((row,i)=>{const x=xFor(i),y=yFor(row[key]);if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y)});
+      ctx.stroke();
+      series.forEach((row,i)=>{ctx.fillStyle=color;ctx.beginPath();ctx.arc(xFor(i),yFor(row[key]),2.5,0,Math.PI*2);ctx.fill()});
+    }
+    line('visits','#0b5ea9');line('exams','#df7a22');
+    const step=days<=7?1:Math.ceil(series.length/7);
+    ctx.font='9px Arial';ctx.fillStyle='#667789';ctx.textAlign='center';ctx.textBaseline='top';
+    series.forEach((row,i)=>{if(i%step===0||i===series.length-1)ctx.fillText(row.label||'',xFor(i),H-pad.b+9)});
+  }
+
+  function renderDashboard(d){
+    dashboardData=d; renderKPIs(d); drawChart(dashboardDays);
+  }
+
+  window.loadOtherStats=async function(){
+    if(typeof RESULT_ENDPOINT==='undefined'||!RESULT_ENDPOINT){setStatusV39('Chưa cấu hình máy chủ dữ liệu.',true);return}
+    const pass=(typeof adminPasswordSession!=='undefined'?adminPasswordSession:'')||'';
+    if(!pass){setStatusV39('Cần đăng nhập Admin trước khi xem số liệu.',true);return}
+    setStatusV39('Đang tải số liệu…',false);
+    try{
+      const d=await jsonpV39(RESULT_ENDPOINT+'?action=dashboard&password='+encodeURIComponent(pass));
+      if(!d||!d.ok){setStatusV39((d&&d.message)||'Không lấy được dữ liệu Dashboard.',true);return}
+      renderDashboard(d);setStatusV39('',false);
+    }catch(e){setStatusV39(e.message||'Không lấy được dữ liệu Dashboard.',true)}
+  };
+
+  document.querySelectorAll('.dashboard-range-switch button').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.dashboard-range-switch button').forEach(x=>x.classList.remove('active'));
+      btn.classList.add('active');
+      dashboardDays=Number(btn.dataset.days)||7;
+      setText('dashChartCaption',dashboardDays+' ngày gần nhất');
+      drawChart(dashboardDays);
+    });
+  });
+  window.addEventListener('resize',()=>{if(dashboardData)drawChart(dashboardDays)});
+})();
+</script>
+
+
+<script>
+/* ===== V40: MẬT KHẨU ADMIN ĐƯỢC XÁC THỰC TẬP TRUNG TỪ GOOGLE SHEETS ===== */
+(function(){
+  try{ localStorage.removeItem('localAdminPassword'); }catch(e){}
 })();
 </script>
 
