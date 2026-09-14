@@ -1109,6 +1109,97 @@ body.guide-home-visible .guide-corner-btn{display:flex!important}
   #gradeSettingsList{max-height:220px!important}
 }
 
+
+/* ===== V48: SỬA BIỂU ĐỒ XẾP LOẠI TRÊN MOBILE ===== */
+@media(max-width:600px){
+  .admin-chart-card{
+    width:100%!important;
+    max-width:100%!important;
+    box-sizing:border-box!important;
+    overflow:visible!important;
+    padding:12px 10px!important;
+  }
+
+  .donut-wrap{
+    width:100%!important;
+    max-width:100%!important;
+    display:flex!important;
+    justify-content:center!important;
+    align-items:center!important;
+    box-sizing:border-box!important;
+    overflow:visible!important;
+    padding:8px 0 10px!important;
+  }
+
+  .donut{
+    width:min(230px,72vw)!important;
+    height:min(230px,72vw)!important;
+    min-width:0!important;
+    min-height:0!important;
+    aspect-ratio:1/1!important;
+    flex:0 0 auto!important;
+    margin:0 auto!important;
+    box-sizing:border-box!important;
+  }
+
+  .donut:after{
+    inset:24%!important;
+  }
+
+  .donut-hole{
+    inset:24%!important;
+  }
+
+  .donut-hole b{
+    font-size:clamp(25px,8vw,34px)!important;
+  }
+
+  .donut-hole span{
+    font-size:11px!important;
+  }
+
+  .donut-legend{
+    grid-template-columns:1fr!important;
+    gap:5px!important;
+    width:100%!important;
+    box-sizing:border-box!important;
+  }
+
+  .legend-row{
+    width:100%!important;
+    box-sizing:border-box!important;
+    padding:6px 8px!important;
+  }
+}
+
+@media(max-width:390px){
+  .donut{
+    width:min(210px,68vw)!important;
+    height:min(210px,68vw)!important;
+  }
+}
+
+
+/* ===== V49: THI CHÍNH THỨC 1 LẦN + XÁC NHẬN BẮT ĐẦU + TỔNG HỢP ===== */
+.official-start-layer,.official-summary-layer{display:none;position:fixed;inset:0;z-index:380000;background:#07182dd9;backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:14px}
+.official-start-layer.show,.official-summary-layer.show{display:flex}
+.official-start-dialog{width:min(470px,96vw);background:#fff;border-radius:18px;padding:22px 20px;box-shadow:0 25px 90px #0008;text-align:center}
+.official-start-icon{font-size:42px;line-height:1}.official-start-dialog h2{margin:8px 0 12px;color:#5b21b6;font-size:24px}
+.official-start-info{border:1px solid #ddd6fe;background:#f5f3ff;border-radius:11px;padding:11px 12px;line-height:1.5;color:#334155;text-align:left}
+.official-start-warning{margin:12px 0 8px;padding:10px;border-radius:10px;background:#fff7ed;color:#9a3412;line-height:1.45;font-size:13px}
+.official-start-actions{display:grid;grid-template-columns:.8fr 1.2fr;gap:9px;margin-top:12px}
+.official-start-actions button{min-height:46px;border:0;border-radius:10px;font-weight:900;cursor:pointer}
+.official-start-actions #confirmOfficialStart{background:#6d28d9;color:#fff}.official-start-actions .secondary{background:#e2e8f0;color:#334155}
+.official-summary-actions{display:flex;gap:8px;flex-wrap:wrap;margin:7px 0 10px}
+.official-summary-dialog{width:min(1200px,98vw);max-height:94dvh;background:#fff;border-radius:18px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 25px 90px #0008}
+.official-summary-tools{display:grid;grid-template-columns:1.4fr 1fr auto;gap:8px;padding:0 12px 10px}
+.official-summary-tools input,.official-summary-tools select{min-height:40px;border:1px solid #cbd5e1;border-radius:8px;padding:7px 9px}
+.official-summary-tools button{margin:0}
+@media(max-width:600px){
+  .official-start-dialog{padding:18px 14px}.official-start-actions{grid-template-columns:1fr}.official-start-actions #confirmOfficialStart{order:-1}
+  .official-summary-dialog{width:100%;max-height:96dvh;border-radius:13px}.official-summary-tools{grid-template-columns:1fr}
+}
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/mammoth@1.8.0/mammoth.browser.min.js">
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
@@ -1176,7 +1267,7 @@ loadExamUnits(false);
 <section aria-live="polite" class="exam-screen" id="examScreen">
 <div class="exam-head">
 <div class="exam-head-top"><b>THỜI GIAN:</b><span class="timer" id="timer">90:00</span></div>
-<div class="exam-candidate" id="examCandidate"></div><span class="progress">Đã chọn: <span id="answeredCount">0</span>/100</span>
+<div class="exam-candidate" id="examCandidate"></div><span class="progress">Đã chọn: <span id="answeredCount">0</span>/<span id="answeredTotal">100</span></span>
 <div class="exam-actions"><button class="actionbtn mobile-nav-toggle" id="mobileExamNavToggle" type="button">☰ Danh sách câu</button><button class="actionbtn secondary" id="exitExam" type="button">Thoát</button><button class="actionbtn exam" id="submitExam" type="button">Nộp bài</button></div>
 </div>
 <div class="exam-result" id="examResult"></div>
@@ -1215,6 +1306,21 @@ loadExamUnits(false);
 </div>
 </div>
 </div>
+
+<div aria-hidden="true" class="official-start-layer" id="officialStartLayer">
+<div aria-labelledby="officialStartTitle" aria-modal="true" class="official-start-dialog" role="dialog">
+<div class="official-start-icon">⏱️</div>
+<h2 id="officialStartTitle">BẮT ĐẦU THI</h2>
+<div class="official-start-info" id="officialStartInfo"></div>
+<div class="official-start-warning">Thời gian làm bài chỉ bắt đầu tính sau khi nhấn <b>BẮT ĐẦU THI</b>.<br/>Mỗi mã thi chính thức chỉ được sử dụng <b>01 lần</b>.</div>
+<div class="official-code-status" id="officialStartStatus"></div>
+<div class="official-start-actions">
+<button class="secondary" id="cancelOfficialStart" type="button">Quay lại</button>
+<button id="confirmOfficialStart" type="button">BẮT ĐẦU THI</button>
+</div>
+</div>
+</div>
+
 <div aria-hidden="true" class="official-results-layer" id="officialResultsLayer">
 <div aria-modal="true" class="official-results-dialog" role="dialog">
 <div class="official-results-head">
@@ -1236,6 +1342,34 @@ loadExamUnits(false);
 </div>
 </div>
 </div>
+
+<div aria-hidden="true" class="official-summary-layer" id="officialSummaryLayer">
+<div aria-modal="true" class="official-summary-dialog" role="dialog">
+<div class="official-results-head">
+<div><b>TỔNG HỢP KẾT QUẢ THI CHÍNH THỨC</b><span>Tất cả mã kỳ thi</span></div>
+<button id="closeOfficialSummary" type="button">✕ Đóng</button>
+</div>
+<div class="official-results-summary">
+<div><span>Tổng lượt thi</span><b id="officialSummaryAttempts">0</b></div>
+<div><span>Tổng thí sinh</span><b id="officialSummaryCandidates">0</b></div>
+<div><span>Điểm TB</span><b id="officialSummaryAverage">0%</b></div>
+<div><span>Tỷ lệ đạt</span><b id="officialSummaryPassRate">0%</b></div>
+</div>
+<div class="official-summary-tools">
+<input id="officialSummarySearch" placeholder="Tìm họ tên, đơn vị, mã thi..." type="search"/>
+<select id="officialSummaryExamFilter"><option value="">Tất cả kỳ thi</option></select>
+<button id="exportOfficialSummaryXlsx2" type="button">⬇ Xuất Excel</button>
+</div>
+<div class="official-results-table-wrap">
+<table class="ranking-table">
+<thead><tr><th>STT</th><th>Mã kỳ thi</th><th>Mã thi</th><th>Họ và tên</th><th>Đơn vị</th><th>Điểm</th><th>Tỷ lệ</th><th>Xếp loại</th><th>Thời gian</th><th>Thời điểm nộp</th></tr></thead>
+<tbody id="officialSummaryBody"></tbody>
+</table>
+<div class="ranking-empty" id="officialSummaryEmpty" style="display:none">Chưa có kết quả thi chính thức.</div>
+</div>
+</div>
+</div>
+
 <div aria-labelledby="rankingTitle" aria-modal="true" class="ranking-overlay" id="rankingOverlay" role="dialog">
 <div class="ranking-panel">
 <div class="ranking-top">
@@ -1504,6 +1638,12 @@ loadExamUnits(false);
 </div>
 <div class="config-status" id="officialExamAdminStatus"></div>
 <div class="official-list-head"><b>DANH SÁCH MÃ KỲ THI</b><span id="officialExamCount">0 mã</span></div>
+<div class="official-summary-actions">
+<button id="openOfficialSummary" type="button">📊 Tổng hợp kết quả tất cả kỳ thi</button>
+<button class="secondary" id="exportOfficialSummaryXlsx" type="button">⬇ Xuất Excel tổng hợp</button>
+</div>
+<div class="config-status" id="officialSummaryStatus"></div>
+
 <div class="official-exam-admin-list" id="officialExamAdminList"></div>
 <div class="official-candidate-manager">
 <div class="official-list-head">
@@ -1737,6 +1877,7 @@ const examQuestions=document.getElementById('examQuestions');
 const examResult=document.getElementById('examResult');
 const timer=document.getElementById('timer');
 const answeredCount=document.getElementById('answeredCount');
+const answeredTotal=document.getElementById('answeredTotal');
 const examCandidate=document.getElementById('examCandidate');
 const examLogin=document.getElementById('examLogin');
 const candidateName=document.getElementById('candidateName');
@@ -1771,6 +1912,7 @@ function isExamQuestionAnswered(index){return !!examQuestions.querySelector(`inp
 function updateAnswered(){
   const answered=examQuestions.querySelectorAll('input:checked').length;
   answeredCount.textContent=answered;
+  if(answeredTotal)answeredTotal.textContent=examBank.length;
   if(navAnsweredCount)navAnsweredCount.textContent=answered;
   if(navUnansweredCount)navUnansweredCount.textContent=Math.max(0,examBank.length-answered);
   examNavGrid?.querySelectorAll('.exam-nav-btn').forEach((btn,i)=>{btn.classList.toggle('answered',isExamQuestionAnswered(i));});
@@ -1824,13 +1966,13 @@ function beginExam(){
   const examLetters=['A','B','C','D','E'];
   examBank=selectedQuestions.map(item=>({...item,options:shuffleArray(item.options).map((opt,index)=>({...opt,label:examLetters[index] || String.fromCharCode(65+index)}))}));
   if(officialExamContext){
-    officialExamStartedAt=new Date().toISOString();
+    officialExamStartedAt=officialExamContext.startedAt||new Date().toISOString();
     examCandidate.textContent=`THI CHÍNH THỨC • ${officialExamContext.code} • ${currentModule().name} • Thí sinh: ${candidate.name} • Đơn vị: ${candidate.unit}`;
   }else{
     officialExamStartedAt='';
     examCandidate.textContent=candidate.anonymous?`${currentModule().name} • THI ẨN DANH • Không lưu kết quả`:`${currentModule().name} • Thí sinh: ${candidate.name} • Đơn vị: ${candidate.unit}`;
   }
-  renderExam();examResult.style.display='none';examResult.className='exam-result';examResult.innerHTML='';answeredCount.textContent='0';
+  renderExam();examResult.style.display='none';examResult.className='exam-result';examResult.innerHTML='';answeredCount.textContent='0';if(answeredTotal)answeredTotal.textContent=examBank.length;
   examActive=true;examSubmitted=false;endTime=Date.now()+examMinutes*60*1000;timer.style.color='';
   document.getElementById('submitExam').disabled=false;
   document.body.classList.remove('reveal-answers','only-correct','home-mode');document.body.classList.add('exam-mode');
@@ -1925,16 +2067,17 @@ function submitExam(auto=false){
     noiDungId:currentModuleId,
     noiDungThi:currentModule().name
   };
-  const resultAlert=failed
+  const resultAlert=officialExamContext?'':(failed
     ?`<div class="fail-alert"><span class="emoji">😡</span>ĐỀ NGHỊ ĐỒNG CHÍ ÔN THI LẠI</div>`
-    :`<div class="pass-alert"><span class="emoji">🤩</span>ĐỒNG CHÍ THẬT LÀ XUẤT SẮC</div>`;
+    :`<div class="pass-alert"><span class="emoji">🤩</span>ĐỒNG CHÍ THẬT LÀ XUẤT SẮC</div>`);
   examResult.className='exam-result result-popup'+(failed?' fail':' pass');
   const candidateLine=candidate.anonymous?'<div><b>🔒 THI ẨN DANH</b> • Kết quả không được lưu</div>':`<div><b>${candidate.name}</b> • ${candidate.unit}</div>`;
   const saveLine=candidate.anonymous?'Thi ẩn danh — kết quả chỉ hiển thị trên màn hình này và không được lưu.':'Đang lưu kết quả…';
   const wrongCount=examBank.length-correct;
-  const wrongRetryButton=wrongCount>0?`<button class="actionbtn" type="button" onclick="retryWrongQuestions()">Thi lại các câu sai</button>`:'';
+  const wrongRetryButton=(!officialExamContext&&wrongCount>0)?`<button class="actionbtn" type="button" onclick="retryWrongQuestions()">Thi lại các câu sai</button>`:'';
+  const resultButtons=officialExamContext?`<button class="actionbtn" type="button" onclick="reviewSubmittedExam()">Xem lại bài thi</button><button class="actionbtn" type="button" onclick="returnHomeAfterExam()">Trang chủ</button>`:`<button class="actionbtn" type="button" onclick="reviewSubmittedExam()">Xem lại bài thi</button><button class="actionbtn" type="button" onclick="requestStartExam()">Thi lại</button>${wrongRetryButton}<button class="actionbtn" type="button" onclick="returnHomeAfterExam()">Trang chủ</button>`;
   const resultTitle=officialExamContext?`KẾT QUẢ THI CHÍNH THỨC • ${officialExamContext.code}`:'KẾT QUẢ THI';
-  examResult.innerHTML=`<h2>${resultTitle}</h2>${auto?'<div class="auto-submit-note">Hết giờ - hệ thống đã tự động nộp bài.</div>':''}${candidateLine}<div><b>${correct}/${examBank.length} câu đúng (${percent}%)</b> • Xếp loại: <b>${grade.label}</b> • Đã trả lời ${answered}/${examBank.length} câu.</div>${resultAlert}<div class="save-status ${candidate.anonymous?'ok':''}" id="saveStatus">${saveLine}</div><div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap"><button class="actionbtn" type="button" onclick="reviewSubmittedExam()">Xem lại bài thi</button><button class="actionbtn" type="button" onclick="requestStartExam()">Thi lại</button>${wrongRetryButton}<button class="actionbtn" type="button" onclick="returnHomeAfterExam()">Trang chủ</button></div>`;
+  examResult.innerHTML=`<h2>${resultTitle}</h2>${auto?'<div class="auto-submit-note">Hết giờ - hệ thống đã tự động nộp bài.</div>':''}${candidateLine}<div><b>${correct}/${examBank.length} câu đúng (${percent}%)</b> • Xếp loại: <b>${grade.label}</b> • Đã trả lời ${answered}/${examBank.length} câu.</div>${resultAlert}<div class="save-status ${candidate.anonymous?'ok':''}" id="saveStatus">${saveLine}</div><div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">${resultButtons}</div>`;
   examResult.style.display='block';document.getElementById('submitExam').disabled=true;
   if(candidate.anonymous){
     try{recordSystemMetric('anonymous_exam',{moduleId:currentModuleId,moduleName:currentModule().name});}catch(e){}
@@ -2709,7 +2852,7 @@ fillGuideEditor();
       action:'saveCentral',
       password:getCentralPassword(),
       config:{
-        version:47,
+        version:49,
         savedAt:new Date().toISOString(),
         syncToken:'sync-'+Date.now()+'-'+Math.random().toString(36).slice(2),
         quizModules:cloneJSON(quizModules||[]),
@@ -3182,44 +3325,78 @@ fillGuideEditor();
   function closeCode(){
     codeLayer.classList.remove('show');codeLayer.setAttribute('aria-hidden','true');
   }
+  let pendingOfficialEntry=null;
+  const startLayer=document.getElementById('officialStartLayer');
+  const startInfo=document.getElementById('officialStartInfo');
+  const startStatus=document.getElementById('officialStartStatus');
+
+  function setStartStatus(msg,bad=false){
+    if(!startStatus)return;
+    startStatus.textContent=msg||'';
+    startStatus.className='official-code-status'+(msg?' show':'')+(bad?' err':' ok');
+  }
+  function closeStartLayer(){
+    startLayer?.classList.remove('show');
+    startLayer?.setAttribute('aria-hidden','true');
+    setStartStatus('');
+  }
+  function openOfficialStart(exam,person,personalCode){
+    pendingOfficialEntry={exam,person,personalCode};
+    if(startInfo)startInfo.innerHTML=
+      `<b>${esc(person.name||'')}</b><br>`+
+      `Đơn vị: <b>${esc(person.unit||'')}</b><br>`+
+      `Kỳ thi: <b>${esc(exam.name||exam.code||'')}</b><br>`+
+      `Môn thi: <b>${esc(exam.moduleName||'')}</b><br>`+
+      `Số câu: <b>${Number(exam.questionCount)||0}</b> • Thời gian: <b>${Number(exam.minutes)||0} phút</b>`;
+    closeCode();
+    startLayer?.classList.add('show');
+    startLayer?.setAttribute('aria-hidden','false');
+  }
+
   async function verifyCode(){
     const personalCode=String(codeInput.value||'').trim().toUpperCase();
     if(!personalCode){showCodeStatus('Vui lòng nhập mã thi cá nhân.',true);codeInput.focus();return}
-    showCodeStatus('Đang kiểm tra mã thi và thông tin thí sinh…');
+    showCodeStatus('Đang xác thực mã thi…');
     try{
       const d=await adminJsonp(RESULT_ENDPOINT+'?action=officialExam&code='+encodeURIComponent(personalCode)+'&_='+Date.now());
       if(!d?.ok){showCodeStatus(d?.message||'Mã thi cá nhân không hợp lệ.',true);return}
-      const exam=d.exam||{}, person=d.candidate||{};
-      const mod=quizModules.find(m=>m.id===exam.moduleId);
-      if(!mod){showCodeStatus('Nội dung thi của mã này chưa có trên thiết bị. Hãy tải lại trang.',true);return}
-
+      const exam=d.exam||{},person=d.candidate||{},mod=quizModules.find(m=>m.id===exam.moduleId);
+      if(!mod){showCodeStatus('Nội dung thi của mã này chưa có trên thiết bị.',true);return}
       currentModuleId=exam.moduleId;storeSet('currentQuizModule',currentModuleId);syncCurrentBank();
-      const source=getExamSource();
-      const count=Math.max(1,Number(exam.questionCount)||1);
-      if(source.length<count){showCodeStatus(`Ngân hàng “${mod.name}” hiện chỉ có ${source.length} câu, không đủ ${count} câu.`,true);return}
-
-      candidate={
-        name:String(person.name||'').trim().toUpperCase(),
-        unit:String(person.unit||'').trim().toUpperCase(),
-        anonymous:false
-      };
-      if(!candidate.name||!candidate.unit){showCodeStatus('Mã thi chưa được gắn đầy đủ Họ và tên / Đơn vị.',true);return}
-
-      officialExamContext={
-        code:String(exam.code||'').toUpperCase(),
-        name:exam.name||'Kỳ thi chính thức',
-        moduleId:exam.moduleId,
-        moduleName:exam.moduleName||mod.name,
-        questionCount:count,
-        minutes:Number(exam.minutes)||1,
-        openAt:exam.openAt||'',
-        closeAt:exam.closeAt||'',
-        personalCode:String(person.code||personalCode).toUpperCase()
-      };
-      closeCode();
-      beginExam();
+      const count=Math.max(1,Number(exam.questionCount)||1),source=getExamSource();
+      if(source.length<count){showCodeStatus(`Ngân hàng “${mod.name}” chỉ có ${source.length} câu, không đủ ${count} câu.`,true);return}
+      if(!person.name||!person.unit){showCodeStatus('Mã thi chưa có đủ Họ và tên / Đơn vị.',true);return}
+      openOfficialStart(exam,person,personalCode);
     }catch(e){showCodeStatus(e.message||'Không kết nối được máy chủ.',true)}
   }
+
+  async function confirmOfficialStartNow(){
+    if(!pendingOfficialEntry)return;
+    const btn=document.getElementById('confirmOfficialStart');
+    if(btn)btn.disabled=true;
+    setStartStatus('Đang ghi nhận thời điểm bắt đầu thi…');
+    try{
+      const d=await adminJsonp(RESULT_ENDPOINT+'?action=officialStart&code='+encodeURIComponent(pendingOfficialEntry.personalCode)+'&_='+Date.now());
+      if(!d?.ok){setStartStatus(d?.message||'Không thể bắt đầu thi.',true);return}
+      const exam=d.exam||pendingOfficialEntry.exam,person=d.candidate||pendingOfficialEntry.person;
+      const mod=quizModules.find(m=>m.id===exam.moduleId);
+      currentModuleId=exam.moduleId;storeSet('currentQuizModule',currentModuleId);syncCurrentBank();
+      candidate={name:String(person.name||'').trim().toUpperCase(),unit:String(person.unit||'').trim().toUpperCase(),anonymous:false};
+      officialExamContext={
+        code:String(exam.code||'').toUpperCase(),name:exam.name||'Kỳ thi chính thức',
+        moduleId:exam.moduleId,moduleName:exam.moduleName||mod?.name||'',
+        questionCount:Math.max(1,Number(exam.questionCount)||1),minutes:Math.max(1,Number(exam.minutes)||1),
+        openAt:exam.openAt||'',closeAt:exam.closeAt||'',
+        personalCode:String(person.code||pendingOfficialEntry.personalCode).toUpperCase(),
+        startedAt:d.startedAt||new Date().toISOString()
+      };
+      pendingOfficialEntry=null;closeStartLayer();beginExam();
+    }catch(e){setStartStatus(e.message||'Không kết nối được máy chủ.',true)}
+    finally{if(btn)btn.disabled=false}
+  }
+
+  document.getElementById('confirmOfficialStart')?.addEventListener('click',confirmOfficialStartNow);
+  document.getElementById('cancelOfficialStart')?.addEventListener('click',()=>{pendingOfficialEntry=null;closeStartLayer();openCode()});
 
   homeBtn?.addEventListener('click',openCode);
   document.getElementById('closeOfficialCode')?.addEventListener('click',closeCode);
@@ -3359,6 +3536,79 @@ fillGuideEditor();
     }
     if(b.dataset.act==='result')openOfficialResults(x);
   });
+
+
+  let officialSummaryRows=[];
+
+  async function loadOfficialSummaryRows(){
+    if(!adminPasswordSession)throw new Error('Hãy đăng nhập ADMIN trước.');
+    const d=await adminJsonp(RESULT_ENDPOINT+'?action=officialResultsAll&password='+encodeURIComponent(adminPasswordSession)+'&_='+Date.now());
+    if(!d?.ok)throw new Error(d?.message||'Không lấy được dữ liệu tổng hợp.');
+    officialSummaryRows=Array.isArray(d.rows)?d.rows:[];
+    return officialSummaryRows;
+  }
+
+  function filteredOfficialSummaryRows(){
+    const q=String(document.getElementById('officialSummarySearch')?.value||'').trim().toUpperCase();
+    const examCode=document.getElementById('officialSummaryExamFilter')?.value||'';
+    return officialSummaryRows.filter(r=>{
+      if(examCode&&r.kyThiCode!==examCode)return false;
+      if(!q)return true;
+      return [r.kyThiCode,r.maThiCaNhan,r.hoTen,r.donVi,r.ketQua].join(' ').toUpperCase().includes(q);
+    });
+  }
+
+  function renderOfficialSummary(){
+    const rows=filteredOfficialSummaryRows(),body=document.getElementById('officialSummaryBody');
+    const all=officialSummaryRows;
+    txt('officialSummaryAttempts',all.length);
+    txt('officialSummaryCandidates',new Set(all.map(r=>(r.maThiCaNhan||r.hoTen+'|'+r.donVi).toUpperCase())).size);
+    const avg=all.length?all.reduce((s,r)=>s+Number(r.tyLe||0),0)/all.length:0;
+    txt('officialSummaryAverage',avg.toLocaleString('vi-VN',{maximumFractionDigits:1})+'%');
+    const pass=all.filter(r=>!String(r.ketQua||'').toUpperCase().includes('KHÔNG ĐẠT')&&!String(r.ketQua||'').toUpperCase().includes('KHONG DAT')).length;
+    txt('officialSummaryPassRate',(all.length?pass*100/all.length:0).toLocaleString('vi-VN',{maximumFractionDigits:1})+'%');
+    body.innerHTML=rows.map((r,i)=>`<tr><td>${i+1}</td><td><b>${esc(r.kyThiCode||'')}</b></td><td>${esc(r.maThiCaNhan||'')}</td><td><b>${esc(r.hoTen||'')}</b></td><td>${esc(r.donVi||'')}</td><td>${Number(r.soCauDung)||0}/${Number(r.tongSoCau)||0}</td><td>${Number(r.tyLe||0)}%</td><td>${esc(r.ketQua||'')}</td><td>${formatExamDuration(r.thoiGianGiay)}</td><td>${esc(formatAdminTime(r.thoiGian))}</td></tr>`).join('');
+    document.getElementById('officialSummaryEmpty').style.display=rows.length?'none':'block';
+  }
+
+  async function openOfficialSummary(){
+    const layer=document.getElementById('officialSummaryLayer');
+    layer.classList.add('show');layer.setAttribute('aria-hidden','false');
+    txt('officialSummaryStatus','Đang tải tổng hợp kết quả…');
+    try{
+      await loadOfficialSummaryRows();
+      const sel=document.getElementById('officialSummaryExamFilter');
+      const codes=[...new Set(officialSummaryRows.map(r=>r.kyThiCode).filter(Boolean))];
+      sel.innerHTML='<option value="">Tất cả kỳ thi</option>'+codes.map(c=>`<option value="${esc(c)}">${esc(c)}</option>`).join('');
+      renderOfficialSummary();txt('officialSummaryStatus','');
+    }catch(e){txt('officialSummaryStatus','Không tải được: '+(e.message||e))}
+  }
+
+  async function exportOfficialSummaryXlsx(){
+    try{
+      if(!officialSummaryRows.length)await loadOfficialSummaryRows();
+      const rows=filteredOfficialSummaryRows();
+      if(!rows.length){alert('Không có dữ liệu để xuất.');return}
+      const data=rows.map((r,i)=>({
+        'STT':i+1,'MÃ KỲ THI':r.kyThiCode||'','TÊN KỲ THI':r.kyThiName||'','MÃ THI CÁ NHÂN':r.maThiCaNhan||'',
+        'HỌ VÀ TÊN':r.hoTen||'','ĐƠN VỊ':r.donVi||'','SỐ CÂU ĐÚNG':Number(r.soCauDung)||0,'TỔNG SỐ CÂU':Number(r.tongSoCau)||0,
+        'TỶ LỆ (%)':Number(r.tyLe)||0,'XẾP LOẠI':r.ketQua||'','THỜI GIAN LÀM BÀI (GIÂY)':Number(r.thoiGianGiay)||0,
+        'THỜI ĐIỂM NỘP':r.thoiGian?new Date(r.thoiGian).toLocaleString('vi-VN'):''
+      }));
+      if(typeof XLSX==='undefined')throw new Error('Chưa tải được thư viện Excel.');
+      const ws=XLSX.utils.json_to_sheet(data),wb=XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb,ws,'Tong hop ket qua');
+      XLSX.writeFile(wb,'tong_hop_ket_qua_thi_chinh_thuc.xlsx');
+    }catch(e){alert('Không xuất được Excel: '+(e.message||e))}
+  }
+
+  document.getElementById('openOfficialSummary')?.addEventListener('click',openOfficialSummary);
+  document.getElementById('closeOfficialSummary')?.addEventListener('click',()=>{const l=document.getElementById('officialSummaryLayer');l.classList.remove('show');l.setAttribute('aria-hidden','true')});
+  document.getElementById('officialSummarySearch')?.addEventListener('input',renderOfficialSummary);
+  document.getElementById('officialSummaryExamFilter')?.addEventListener('change',renderOfficialSummary);
+  document.getElementById('exportOfficialSummaryXlsx')?.addEventListener('click',exportOfficialSummaryXlsx);
+  document.getElementById('exportOfficialSummaryXlsx2')?.addEventListener('click',exportOfficialSummaryXlsx);
+
 
   async function openOfficialResults(x){
     const layer=document.getElementById('officialResultsLayer');
